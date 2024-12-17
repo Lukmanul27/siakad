@@ -1,63 +1,10 @@
-@extends('layouts.app')
+@extends('layouts.appadmin')
 
 @section('content')
 <div class="container-fluid">
     <div class="row">
         <!-- Sidebar -->
-        <nav class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
-            <div class="sidebar-sticky">
-                <div class="d-flex flex-column align-items-center pt-4 pb-3">
-                    <h6 class="text-center mb-0">Admin Panel</h6>
-                    <small class="text-muted">Administrator</small>
-                </div>
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#">
-                            <i class="fas fa-home"></i>
-                            Dashboard
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <i class="fas fa-users"></i>
-                            Manajemen Guru
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <i class="fas fa-user-graduate"></i>
-                            Manajemen Siswa
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <i class="fas fa-book"></i>
-                            Manajemen Mata Pelajaran
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <i class="fas fa-calendar-alt"></i>
-                            Jadwal Pelajaran
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <i class="fas fa-bullhorn"></i>
-                            Pengumuman
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('logout') }}"
-                            onclick="event.preventDefault();
-                            document.getElementById('logout-form').submit();">
-                            <i class="fas fa-sign-out-alt"></i>
-                            Logout
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
+        @include('layouts.sidebar.admin-appsidebar')
 
         <!-- Main Content -->
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
