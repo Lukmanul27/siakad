@@ -1,0 +1,36 @@
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+
+class UserSeeder extends Seeder
+{
+    /**
+     * Jalankan seeder untuk mengisi database.
+     */
+    public function run()
+    {
+        // Insert role Admin
+        DB::table('users')->insert([
+            'name' => 'Admin SIAKAD',
+            'email' => 'admin@siakad.com',
+            'password' => Hash::make('password123'), // Password terenkripsi
+            'role' => 'admin', // Role Admin
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        // Insert role Guru
+        DB::table('users')->insert([
+            'name' => 'Guru SIAKAD',
+            'email' => 'guru@siakad.com',
+            'password' => Hash::make('password123'), // Password terenkripsi
+            'role' => 'guru', // Role Guru
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+    }
+}
