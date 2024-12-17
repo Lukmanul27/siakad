@@ -16,6 +16,7 @@ class UserSeeder extends Seeder
         // Insert role Admin
         DB::table('users')->insert([
             'name' => 'Admin SIAKAD',
+            'nip' => '1234567890', // NIP untuk Admin
             'email' => 'admin@siakad.com',
             'password' => Hash::make('password123'), // Password terenkripsi
             'role' => 'admin', // Role Admin
@@ -26,6 +27,7 @@ class UserSeeder extends Seeder
         // Insert role Guru
         DB::table('users')->insert([
             'name' => 'Guru SIAKAD',
+            'nip' => '0987654321', // NIP untuk Guru
             'email' => 'guru@siakad.com',
             'password' => Hash::make('password123'), // Password terenkripsi
             'role' => 'guru', // Role Guru
