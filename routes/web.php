@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\JurusanController;
+use App\Http\Controllers\Admin\KelasController;
 
 Route::get('/', function () {
     return view('auth.login');
@@ -22,8 +24,8 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['admin'])->prefix('admin')->group(function () {
         Route::view('/dashboard', 'scr.admin.admin-dashboard')->name('admin.dashboard');
         Route::get('/manajguru', [UserController::class, 'manajGuru'])->name('admin.manajguru');
+        Route::get('/manajkelas', [JurusanController::class, 'index'])->name('admin.manajkelas');
         Route::view('/manajsiswa', 'scr.admin.admin-manajsiswa')->name('admin.manajsiswa');
-        Route::view('/manajkelas', 'scr.admin.admin-manajkelas')->name('admin.manajkelas');
         Route::view('/manajmapel', 'scr.admin.admin-manajmapel')->name('admin.manajmapel');
         Route::view('/manajjadwal', 'scr.admin.admin-manajjadwal')->name('admin.manajjadwal');
         Route::view('/pengumuman', 'scr.admin.admin-pengumuman')->name('admin.pengumuman');
@@ -32,6 +34,12 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/store-user', [UserController::class, 'store'])->name('admin.store.user');
             Route::put('/update-user/{id}', [UserController::class, 'update'])->name('admin.update.user');
             Route::delete('/delete-user/{id}', [UserController::class, 'destroy'])->name('admin.delete.user');
+            
+            // Routes CRUD Jurusan
+            Route::get('/jurusan', [JurusanController::class, 'index'])->name('jurusan.index');
+            Route::post('/jurusan/store', [JurusanController::class, 'store'])->name('jurusan.store');
+            Route::put('/jurusan/update/{id}', [JurusanController::class, 'update'])->name('jurusan.update');
+            Route::delete('/jurusan/delete/{id}', [JurusanController::class, 'destroy'])->name('jurusan.delete');
         });
     });
 

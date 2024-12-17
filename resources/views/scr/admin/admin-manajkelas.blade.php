@@ -1,229 +1,212 @@
 @extends('layouts.appadmin')
 
 @section('content')
-<div class="container-fluid">
-    <div class="row">
-        <!-- Sidebar -->
-        @include('layouts.sidebar.admin-appsidebar')
+    <div class="container-fluid">
+        <div class="row">
+            @include('layouts.sidebar.admin-appsidebar')
 
-        <!-- Main Content -->
-        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                <h1 class="h2">Manajemen Kelas</h1>
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tambahKelasModal">
-                    <i class="fas fa-plus"></i> Tambah Kelas
-                </button>
-            </div>
-
-            <!-- Tabel Daftar Kelas -->
-            <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Daftar Kelas</h6>
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                <!-- Header -->
+                <div
+                    class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">Manajemen Jurusan & Kelas</h1>
                 </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-bordered" id="dataTable">
-                            <thead>
-                                <tr>
-                                    <th>No</th>
-                                    <th>Nama Kelas</th>
-                                    <th>Jurusan</th>
-                                    <th>Wali Kelas</th>
-                                    <th>Jumlah Siswa</th>
-                                    <th>Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody id="kelasTableBody">
-                                <!-- Data akan diisi oleh JavaScript -->
-                            </tbody>
-                        </table>
+
+                <!-- Tabel Jurusan -->
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                        <h6 class="m-0 font-weight-bold text-primary">Daftar Jurusan</h6>
+                        <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#tambahJurusanModal">
+                            <i class="fas fa-plus"></i> Tambah
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        @if(session('success'))
+                            <div class="alert alert-success">
+                                {{ session('success') }}
+                            </div>
+                        @endif
+
+                        @if(session('error'))
+                            <div class="alert alert-danger">
+                                {{ session('error') }}
+                            </div>
+                        @endif
+
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="jurusanTable">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Kode</th>
+                                        <th>Nama</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($jurusans as $index => $jurusan)
+                                    <tr>
+                                        <td>{{ $index + 1 }}</td>
+                                        <td>{{ $jurusan->kode_jurusan }}</td>
+                                        <td>{{ $jurusan->nama_jurusan }}</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editJurusanModal{{ $jurusan->id }}">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <form action="{{ route('jurusan.delete', $jurusan->id) }}" method="POST" class="d-inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Yakin hapus jurusan ini?')">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </main>
+
+                <!-- Modal Edit Jurusan -->
+                @foreach($jurusans as $jurusan)
+                <div class="modal fade" id="editJurusanModal{{ $jurusan->id }}" tabindex="-1" aria-labelledby="editJurusanModalLabel{{ $jurusan->id }}" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="editJurusanModalLabel{{ $jurusan->id }}">Edit Jurusan</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <form action="{{ route('jurusan.update', $jurusan->id) }}" method="POST">
+                                @csrf
+                                @method('PUT')
+                                <div class="modal-body">
+                                    <div class="mb-3">
+                                        <label class="form-label">Kode</label>
+                                        <input type="text" class="form-control" name="kode_jurusan" value="{{ $jurusan->kode_jurusan }}" required maxlength="10">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Nama</label>
+                                        <input type="text" class="form-control" name="nama_jurusan" value="{{ $jurusan->nama_jurusan }}" required maxlength="255">
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                    <button type="submit" class="btn btn-primary">Simpan</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+
+                <!-- Modal Tambah Jurusan -->
+                <div class="modal fade" id="tambahJurusanModal" tabindex="-1" aria-labelledby="tambahJurusanModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="tambahJurusanModalLabel">Tambah Jurusan</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <form action="{{ route('jurusan.store') }}" method="POST">
+                                @csrf
+                                <div class="modal-body">
+                                    <div class="mb-3">
+                                        <label class="form-label">Kode</label>
+                                        <input type="text" class="form-control" name="kode_jurusan" required maxlength="10">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Nama</label>
+                                        <input type="text" class="form-control" name="nama_jurusan" required maxlength="255">
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                    <button type="submit" class="btn btn-primary">Simpan</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Manajemen Kelas -->
+                <div
+                    class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">Manajemen Kelas</h1>
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tambahKelasModal">
+                        <i class="fas fa-plus"></i> Tambah
+                    </button>
+                </div>
+
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Daftar Kelas</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="kelasTable">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Nama</th>
+                                        <th>Jurusan</th>
+                                        <th>Wali</th>
+                                        <th>Jumlah Siswa</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="kelasTableBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
     </div>
-</div>
 
-<!-- Modal Tambah Kelas -->
-<div class="modal fade" id="tambahKelasModal" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Tambah Kelas Baru</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <form id="formTambahKelas" onsubmit="handleSubmit(event)">
-                    <div class="mb-3">
-                        <label class="form-label">Tingkat Kelas</label>
-                        <select class="form-select" name="tingkat" required>
-                            <option value="">Pilih Tingkat</option>
-                            <option value="X">X (Sepuluh)</option>
-                            <option value="XI">XI (Sebelas)</option>
-                            <option value="XII">XII (Dua Belas)</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Jurusan</label>
-                        <select class="form-select" name="jurusan" required>
-                            <option value="">Pilih Jurusan</option>
-                            <option value="IPA">IPA</option>
-                            <option value="IPS">IPS</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Wali Kelas</label>
-                        <select class="form-select" name="wali_kelas" required>
-                            <option value="">Pilih Wali Kelas</option>
-                            <!-- Opsi guru akan diisi oleh JavaScript -->
-                        </select>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                <button type="submit" form="formTambahKelas" class="btn btn-primary">Simpan</button>
+    <!-- Modal Tambah Kelas -->
+    <div class="modal fade" id="tambahKelasModal" tabindex="-1" aria-labelledby="tambahKelasModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="tambahKelasModalLabel">Tambah Kelas</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formTambahKelas">
+                        @csrf
+                        <div class="mb-3">
+                            <label class="form-label">Tingkat</label>
+                            <select class="form-select" name="tingkat" required>
+                                <option value="">Pilih Tingkat</option>
+                                <option value="X">X</option>
+                                <option value="XI">XI</option>
+                                <option value="XII">XII</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Jurusan</label>
+                            <select class="form-select" name="jurusan" required>
+                                <option value="">Pilih Jurusan</option>
+                                @foreach($jurusans as $jurusan)
+                                    <option value="{{ $jurusan->id }}">{{ $jurusan->nama_jurusan }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Wali Kelas</label>
+                            <select class="form-select" name="wali_kelas" required>
+                                <option value="">Pilih Wali Kelas</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" form="formTambahKelas" class="btn btn-primary">Simpan</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
-
-<!-- Modal Edit Kelas -->
-<div class="modal fade" id="editKelasModal" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Edit Kelas</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <form id="formEditKelas" onsubmit="handleEdit(event)">
-                    <input type="hidden" name="id" id="editId">
-                    <div class="mb-3">
-                        <label class="form-label">Tingkat Kelas</label>
-                        <select class="form-select" name="tingkat" required>
-                            <option value="">Pilih Tingkat</option>
-                            <option value="X">X (Sepuluh)</option>
-                            <option value="XI">XI (Sebelas)</option>
-                            <option value="XII">XII (Dua Belas)</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Jurusan</label>
-                        <select class="form-select" name="jurusan" required>
-                            <option value="">Pilih Jurusan</option>
-                            <option value="IPA">IPA</option>
-                            <option value="IPS">IPS</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Wali Kelas</label>
-                        <select class="form-select" name="wali_kelas" required>
-                            <option value="">Pilih Wali Kelas</option>
-                            <!-- Opsi guru akan diisi oleh JavaScript -->
-                        </select>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                <button type="submit" form="formEditKelas" class="btn btn-primary">Simpan Perubahan</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-@endsection
-
-@section('scripts')
-<script>
-$(document).ready(function() {
-    // Data sementara untuk daftar kelas
-    let kelasData = [
-        {
-            id: 1,
-            nama: 'X IPA 1',
-            jurusan: 'IPA',
-            waliKelas: 'Budi Santoso',
-            jumlahSiswa: 32
-        },
-        {
-            id: 2,
-            nama: 'X IPA 2', 
-            jurusan: 'IPA',
-            waliKelas: 'Siti Aminah',
-            jumlahSiswa: 30
-        },
-        {
-            id: 3,
-            nama: 'X IPS 1',
-            jurusan: 'IPS',
-            waliKelas: 'Ahmad Hidayat',
-            jumlahSiswa: 34
-        }
-    ];
-
-    // Fungsi untuk menampilkan data kelas
-    function renderKelasTable() {
-        const tbody = $('#kelasTableBody');
-        tbody.empty();
-
-        kelasData.forEach((kelas, index) => {
-            tbody.append(`
-                <tr>
-                    <td>${index + 1}</td>
-                    <td>${kelas.nama}</td>
-                    <td>${kelas.jurusan}</td>
-                    <td>${kelas.waliKelas}</td>
-                    <td>${kelas.jumlahSiswa}</td>
-                    <td>
-                        <button class="btn btn-sm btn-warning" onclick="editKelas(${kelas.id})">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                        <button class="btn btn-sm btn-danger" onclick="deleteKelas(${kelas.id})">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </td>
-                </tr>
-            `);
-        });
-    }
-
-    // Inisialisasi DataTable
-    $('#dataTable').DataTable();
-    
-    // Render tabel kelas
-    renderKelasTable();
-});
-
-// Fungsi-fungsi handler form
-function handleSubmit(event) {
-    event.preventDefault();
-    const formData = new FormData(event.target);
-    const tingkat = formData.get('tingkat');
-    const jurusan = formData.get('jurusan');
-    const waliKelas = formData.get('wali_kelas');
-
-    // Hitung nomor kelas berikutnya berdasarkan tingkat dan jurusan yang dipilih
-    const existingClasses = kelasData.filter(k => 
-        k.nama.startsWith(tingkat) && 
-        k.nama.includes(jurusan)
-    );
-    const nextNumber = existingClasses.length + 1;
-
-    // Buat nama kelas otomatis
-    const namaKelas = `${tingkat} ${jurusan} ${nextNumber}`;
-
-    // Implementasi tambah kelas dengan nomor otomatis
-    // ... kode untuk menyimpan kelas baru
-}
-
-function editKelas(id) {
-    // Implementasi edit kelas
-}
-
-function deleteKelas(id) {
-    // Implementasi hapus kelas
-}
-</script>
 @endsection

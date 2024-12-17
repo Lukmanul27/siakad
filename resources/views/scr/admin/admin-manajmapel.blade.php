@@ -45,7 +45,6 @@
                                     <th>Nama Mata Pelajaran</th>
                                     <th>Jurusan</th>
                                     <th>KKM</th>
-                                    <th>Guru Pengampu</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -91,13 +90,6 @@
                         <label class="form-label">KKM</label>
                         <input type="number" class="form-control" name="kkm" min="0" max="100" required>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label">Guru Pengampu</label>
-                        <select class="form-select" name="guru_pengampu" required>
-                            <option value="">Pilih Guru</option>
-                            <!-- Opsi guru akan diisi oleh JavaScript -->
-                        </select>
-                    </div>
                 </form>
             </div>
             <div class="modal-footer">
@@ -120,24 +112,21 @@ $(document).ready(function() {
             kode: 'MTK01',
             nama: 'Matematika',
             jurusan: 'UMUM',
-            kkm: 75,
-            guru_pengampu: 'Budi Santoso'
+            kkm: 75
         },
         {
             id: 2,
             kode: 'FIS01',
             nama: 'Fisika',
             jurusan: 'IPA',
-            kkm: 75,
-            guru_pengampu: 'Siti Aminah'
+            kkm: 75
         },
         {
             id: 3,
             kode: 'EKO01',
             nama: 'Ekonomi',
             jurusan: 'IPS',
-            kkm: 75,
-            guru_pengampu: 'Ahmad Hidayat'
+            kkm: 75
         }
     ];
 
@@ -154,7 +143,6 @@ $(document).ready(function() {
                     <td>${mapel.nama}</td>
                     <td>${mapel.jurusan}</td>
                     <td>${mapel.kkm}</td>
-                    <td>${mapel.guru_pengampu}</td>
                     <td>
                         <button class="btn btn-sm btn-warning" onclick="editMapel(${mapel.id})">
                             <i class="fas fa-edit"></i>
