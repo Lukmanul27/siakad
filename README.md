@@ -1,5 +1,5 @@
 ## SIAKAD
-Sistem Informasi Akademik
+Sistem Informasi Akademik (**SIAKAD**) merupakan solusi berbasis digital yang dirancang untuk membantu sekolah, operator, dan guru dalam mengelola data administrasi akademik secara efisien.
 
 
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
