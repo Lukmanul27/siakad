@@ -38,8 +38,8 @@
                                 <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th>Kode</th>
-                                        <th>Nama</th>
+                                        <th>Kode Jurusan</th>
+                                        <th>Nama Jurusan</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
@@ -149,14 +149,36 @@
                                 <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th>Nama</th>
+                                        <th>Tingkat</th>
                                         <th>Jurusan</th>
-                                        <th>Wali</th>
-                                        <th>Jumlah Siswa</th>
+                                        <th>Wali Kelas</th>
+                                        <th>Nama Kelas</th> <!-- Menambahkan kolom Nama Kelas -->
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
-                                <tbody id="kelasTableBody"></tbody>
+                                <tbody>
+                                    @foreach($kelas as $index => $kelasItem)
+                                    <tr>
+                                        <td>{{ $index + 1 }}</td>
+                                        <td>{{ $kelasItem->tingkat }}</td>
+                                        <td>{{ $kelasItem->jurusan->nama_jurusan }}</td>
+                                        <td>{{ $kelasItem->waliKelas ? $kelasItem->waliKelas->name : 'Tidak ada' }}</td>
+                                        <td>{{ $kelasItem->nama_kelas }}</td> <!-- Menampilkan Nama Kelas -->
+                                        <td>
+                                            <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editKelasModal{{ $kelasItem->id }}">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <form action="{{ route('kelas.destroy', $kelasItem->id) }}" method="POST" class="d-inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Yakin hapus kelas ini?')">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
                             </table>
                         </div>
                     </div>
@@ -174,7 +196,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="formTambahKelas">
+                    <form action="{{ route('kelas.store') }}" method="POST" id="formTambahKelas">
                         @csrf
                         <div class="mb-3">
                             <label class="form-label">Tingkat</label>
@@ -187,7 +209,7 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Jurusan</label>
-                            <select class="form-select" name="jurusan" required>
+                            <select class="form-select" name="jurusan_id" required>
                                 <option value="">Pilih Jurusan</option>
                                 @foreach($jurusans as $jurusan)
                                     <option value="{{ $jurusan->id }}">{{ $jurusan->nama_jurusan }}</option>
@@ -198,7 +220,14 @@
                             <label class="form-label">Wali Kelas</label>
                             <select class="form-select" name="wali_kelas" required>
                                 <option value="">Pilih Wali Kelas</option>
+                                @foreach($waliKelas as $wali)
+                                    <option value="{{ $wali->id }}">{{ $wali->name }}</option>
+                                @endforeach
                             </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Nama Kelas</label>
+                            <input type="text" class="form-control" name="nama_kelas" required maxlength="255">
                         </div>
                     </form>
                 </div>
