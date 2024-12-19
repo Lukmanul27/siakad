@@ -14,7 +14,7 @@
                     </button>
                 </div>
 
-                @foreach (['guru' => 'Guru', 'admin' => 'Admin'] as $role => $title)
+                @foreach (['admin' => 'Admin', 'guru' => 'Guru'] as $role => $title)
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
                             <h6 class="m-0 font-weight-bold text-primary">Daftar {{ $title }}</h6>
@@ -100,7 +100,7 @@
                                                 <input type="email" class="form-control" id="email" name="email"
                                                     value="{{ $user->email }}" required>
                                             </div>
-                                            @if (Auth::user()->role == 'admin' || Auth::user()->role == 'guru')
+                                            @if (Auth::user()->role == 'admin')
                                                 <div class="mb-3">
                                                     <label for="role" class="form-label">Role</label>
                                                     <select class="form-select" id="role" name="role" required>

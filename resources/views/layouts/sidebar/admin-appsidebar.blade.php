@@ -1,8 +1,9 @@
 <nav class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
     <div class="sidebar-sticky">
         <div class="d-flex flex-column align-items-center pt-4 pb-3">
-            <h6 class="text-center mb-0 fw-bold">Admin Panel</h6>
-            <small class="text-muted">Administrator</small>
+            <h6 class="text-center mb-0 fw-bold">{{ auth()->user()->name }}</h6>
+            <small class="text-muted">{{ auth()->user()->email }}</small>
+            <small class="text-muted">{{ auth()->user()->role }}</small>
         </div>
         <ul class="nav flex-column">
             <li class="nav-item">
