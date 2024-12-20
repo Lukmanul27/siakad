@@ -12,8 +12,8 @@ body {
     left: 0;
     z-index: 100;
     padding: 48px 0 0;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    background-color: #ffffff !important;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* Mengurangi kontras bayangan */
+    background-color: #f0f0f0 !important; /* Mengurangi kontras warna latar belakang */
 }
 
 .sidebar-sticky {
@@ -27,19 +27,19 @@ body {
 
 .sidebar .nav-link {
     font-weight: 500;
-    color: #6c757d;
+    color: #7a7d80; /* Mengurangi kontras warna teks */
     padding: 0.5rem 1rem;
     margin: 0.2rem 0;
 }
 
 .sidebar .nav-link:hover {
-    color: #4e73df;
-    background-color: #f8f9fc;
+    color: #5a6bdf; /* Mengurangi kontras warna saat hover */
+    background-color: #e9ecef; /* Mengurangi kontras warna latar belakang saat hover */
 }
 
 .sidebar .nav-link.active {
-    color: #4e73df;
-    background-color: #eaecf4;
+    color: #5a6bdf; /* Mengurangi kontras warna teks aktif */
+    background-color: #d0d7e0; /* Mengurangi kontras warna latar belakang aktif */
 }
 
 .sidebar .nav-link i {
@@ -54,49 +54,49 @@ body {
 }
 
 .card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-3px); /* Mengurangi efek hover */
 }
 
 /* Warna border sesuai dengan dashboard */
 .border-left-primary {
-    border-left: 4px solid #4e73df; /* Warna biru untuk Total Guru */
+    border-left: 4px solid #5a6bdf; /* Mengurangi kontras warna biru */
 }
 
 .border-left-success {
-    border-left: 4px solid #1cc88a; /* Warna hijau untuk Total Siswa */
+    border-left: 4px solid #1ab88a; /* Mengurangi kontras warna hijau */
 }
 
 .border-left-info {
-    border-left: 4px solid #36b9cc; /* Warna cyan untuk Mata Pelajaran */
+    border-left: 4px solid #2db9cc; /* Mengurangi kontras warna cyan */
 }
 
 .border-left-warning {
-    border-left: 4px solid #f6c23e; /* Warna kuning untuk Pengumuman Aktif */
+    border-left: 4px solid #f0c23e; /* Mengurangi kontras warna kuning */
 }
 
 /* Warna teks */
 .text-primary {
-    color: #4e73df !important; /* Warna teks Total Guru */
+    color: #5a6bdf !important; /* Mengurangi kontras warna teks */
 }
 
 .text-success {
-    color: #1cc88a !important; /* Warna teks Total Siswa */
+    color: #1ab88a !important; /* Mengurangi kontras warna teks */
 }
 
 .text-info {
-    color: #36b9cc !important; /* Warna teks Mata Pelajaran */
+    color: #2db9cc !important; /* Mengurangi kontras warna teks */
 }
 
 .text-warning {
-    color: #f6c23e !important; /* Warna teks Pengumuman Aktif */
+    color: #f0c23e !important; /* Mengurangi kontras warna teks */
 }
 
 .text-gray-300 {
-    color: #dddfeb !important;
+    color: #e0e0e0 !important; /* Mengurangi kontras warna teks */
 }
 
 .text-gray-800 {
-    color: #5a5c69 !important;
+    color: #6a6c69 !important; /* Mengurangi kontras warna teks */
 }
 
 /* Loading Animation */
@@ -123,8 +123,8 @@ body {
 }
 
 .list-group-item:hover {
-    background-color: #f8f9fc;
-    transform: translateX(5px);
+    background-color: #f0f0f0; /* Mengurangi kontras warna latar belakang saat hover */
+    transform: translateX(3px); /* Mengurangi efek hover */
 }
 
 /* Responsive */

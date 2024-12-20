@@ -1,7 +1,7 @@
             /* Reset dan Styling Dasar */
             body {
                 font-family: 'Poppins', sans-serif;
-                background-color: #f8f9fa;
+                background-color: #f0f2f5; /* Mengurangi kontras warna latar belakang */
             }
 
             /* Container Login */
@@ -10,16 +10,16 @@
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                background: linear-gradient(135deg, #0d6efd 0%, #0dcaf0 100%);
+                background: linear-gradient(135deg, #0b5ed7 0%, #089bb9 100%); /* Mengurangi kontras warna gradien */
                 padding: 2rem;
             }
 
             /* Card Login */
             .login-card {
-                background: white;
+                background: #ffffff; /* Mengurangi kontras warna latar belakang */
                 padding: 2.5rem;
                 border-radius: 20px;
-                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* Mengurangi kontras bayangan */
                 width: 100%;
                 max-width: 450px;
             }
@@ -32,43 +32,43 @@
             }
 
             .login-header h1 {
-                color: #0d6efd;
+                color: #0b5ed7; /* Mengurangi kontras warna teks */
                 font-size: 2.2rem;
                 font-weight: 700;
                 margin-bottom: 0.5rem;
             }
 
             .login-header h5 {
-                color: #6c757d;
+                color: #6c757d; /* Tetap sama, sudah cukup rendah kontras */
                 font-weight: 500;
             }
 
             .divider {
                 height: 2px;
-                background: #e9ecef;
+                background: #e0e0e0; /* Mengurangi kontras warna divider */
                 margin: 1.5rem 0;
             }
 
             /* Form Elements */
             .form-control {
                 padding: 0.8rem 1rem;
-                border: 1px solid #dee2e6;
+                border: 1px solid #ced4da; /* Mengurangi kontras warna border */
                 border-radius: 8px;
                 transition: all 0.3s ease;
             }
 
             .form-control:focus {
-                border-color: #0d6efd;
-                box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.15);
+                border-color: #0b5ed7; /* Mengurangi kontras warna border saat fokus */
+                box-shadow: 0 0 0 0.2rem rgba(11, 94, 215, 0.1); /* Mengurangi kontras bayangan saat fokus */
             }
 
             .form-label {
                 font-weight: 500;
-                color: #495057;
+                color: #495057; /* Tetap sama, sudah cukup rendah kontras */
             }
 
             .form-check-label {
-                color: #6c757d;
+                color: #6c757d; /* Tetap sama, sudah cukup rendah kontras */
             }
 
             /* Buttons */
@@ -80,12 +80,12 @@
             }
 
             .btn-primary:hover {
-                background-color: #0b5ed7;
+                background-color: #0a58ca; /* Mengurangi kontras warna saat hover */
                 transform: translateY(-1px);
             }
 
             .btn-link {
-                color: #0d6efd;
+                color: #0b5ed7; /* Mengurangi kontras warna link */
                 text-decoration: none;
                 font-weight: 500;
             }
