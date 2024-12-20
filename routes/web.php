@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\JurusanController;
 use App\Http\Controllers\Admin\KelasController;
+use App\Http\Controllers\Admin\MapelController; // Menambahkan import model MapelController
 use App\Models\Kelas; // Menambahkan import model Kelas
 use App\Models\Jurusan; // Menambahkan import model Jurusan
 use App\Models\User; // Menambahkan import model User
@@ -29,7 +30,13 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/manajguru', [UserController::class, 'manajGuru'])->name('admin.manajguru');
         Route::get('/manajkelas', [KelasController::class, 'index'])->name('admin.manajkelas'); // Memperbaiki rute manajkelas
         Route::view('/manajsiswa', 'scr.admin.admin-manajsiswa')->name('admin.manajsiswa');
-        Route::view('/manajmapel', 'scr.admin.admin-manajmapel')->name('admin.manajmapel');
+        
+        // Routes CRUD Mata Pelajaran
+        Route::get('/manajmapel', [MapelController::class, 'index'])->name('admin.manajmapel'); // Menampilkan daftar mata pelajaran
+        Route::post('/mapel/store', [MapelController::class, 'store'])->name('admin.mapel.store'); // Menyimpan mata pelajaran baru
+        Route::put('/mapel/update/{id}', [MapelController::class, 'update'])->name('admin.mapel.update'); // Memperbarui mata pelajaran
+        Route::delete('/mapel/delete/{id}', [MapelController::class, 'destroy'])->name('admin.mapel.destroy'); // Menghapus mata pelajaran
+
         Route::view('/manajjadwal', 'scr.admin.admin-manajjadwal')->name('admin.manajjadwal');
         Route::view('/pengumuman', 'scr.admin.admin-pengumuman')->name('admin.pengumuman');
 

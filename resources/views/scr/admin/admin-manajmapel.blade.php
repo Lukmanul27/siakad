@@ -20,10 +20,11 @@
                 <div class="card-body">
                     <div class="row align-items-center">
                         <div class="col-md-3">
-                            <select class="form-select" id="filterJurusan">
+                            <select class="form-select" id="filterJurusan" onchange="filterMapel()">
                                 <option value="">Semua Jurusan</option>
-                                <option value="IPA">IPA</option>
-                                <option value="IPS">IPS</option>
+                                @foreach($jurusans as $jurusan)
+                                    <option value="{{ $jurusan->id }}">{{ $jurusan->nama_jurusan }}</option>
+                                @endforeach
                             </select>
                         </div>
                     </div>
@@ -49,7 +50,27 @@
                                 </tr>
                             </thead>
                             <tbody id="mapelTableBody">
-                                <!-- Data akan diisi oleh JavaScript -->
+                                @foreach($mataPelajaran as $index => $mapel)
+                                <tr class="mapel-row" data-jurusan-id="{{ $mapel->jurusan_id }}">
+                                    <td>{{ $index + 1 }}</td>
+                                    <td>{{ $mapel->kode }}</td>
+                                    <td>{{ $mapel->nama }}</td>
+                                    <td>{{ $mapel->jurusan->nama_jurusan }}</td>
+                                    <td>{{ $mapel->kkm }}</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editMapelModal{{ $mapel->id }}">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <form action="{{ route('admin.mapel.destroy', $mapel->id) }}" method="POST" class="d-inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus mata pelajaran ini?')">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -58,6 +79,51 @@
         </main>
     </div>
 </div>
+
+<!-- Modal Edit Mata Pelajaran -->
+@foreach($mataPelajaran as $mapel)
+<div class="modal fade" id="editMapelModal{{ $mapel->id }}" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Mata Pelajaran</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formEditMapel{{ $mapel->id }}" action="{{ route('admin.mapel.update', $mapel->id) }}" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <div class="mb-3">
+                        <label class="form-label">Kode Mata Pelajaran</label>
+                        <input type="text" class="form-control" name="kode" value="{{ $mapel->kode }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Nama Mata Pelajaran</label>
+                        <input type="text" class="form-control" name="nama" value="{{ $mapel->nama }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Jurusan</label>
+                        <select class="form-select" name="jurusan_id" required>
+                            <option value="">Pilih Jurusan</option>
+                            @foreach($jurusans as $jurusan)
+                                <option value="{{ $jurusan->id }}" {{ $jurusan->id == $mapel->jurusan_id ? 'selected' : '' }}>{{ $jurusan->nama_jurusan }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">KKM</label>
+                        <input type="number" class="form-control" name="kkm" value="{{ $mapel->kkm }}" min="0" max="100" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                <button type="submit" form="formEditMapel{{ $mapel->id }}" class="btn btn-primary">Simpan</button>
+            </div>
+        </div>
+    </div>
+</div>
+@endforeach
 
 <!-- Modal Tambah Mata Pelajaran -->
 <div class="modal fade" id="tambahMapelModal" tabindex="-1">
@@ -68,7 +134,8 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <form id="formTambahMapel" onsubmit="handleSubmit(event)">
+                <form id="formTambahMapel" action="{{ route('admin.mapel.store') }}" method="POST">
+                    @csrf
                     <div class="mb-3">
                         <label class="form-label">Kode Mata Pelajaran</label>
                         <input type="text" class="form-control" name="kode" required>
@@ -79,11 +146,11 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Jurusan</label>
-                        <select class="form-select" name="jurusan" required>
+                        <select class="form-select" name="jurusan_id" required>
                             <option value="">Pilih Jurusan</option>
-                            <option value="IPA">IPA</option>
-                            <option value="IPS">IPS</option>
-                            <option value="UMUM">Umum</option>
+                            @foreach($jurusans as $jurusan)
+                                <option value="{{ $jurusan->id }}">{{ $jurusan->nama_jurusan }}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="mb-3">
@@ -100,87 +167,19 @@
     </div>
 </div>
 
-@endsection
-
-@section('scripts')
 <script>
-$(document).ready(function() {
-    // Data sementara untuk daftar mata pelajaran
-    let mapelData = [
-        {
-            id: 1,
-            kode: 'MTK01',
-            nama: 'Matematika',
-            jurusan: 'UMUM',
-            kkm: 75
-        },
-        {
-            id: 2,
-            kode: 'FIS01',
-            nama: 'Fisika',
-            jurusan: 'IPA',
-            kkm: 75
-        },
-        {
-            id: 3,
-            kode: 'EKO01',
-            nama: 'Ekonomi',
-            jurusan: 'IPS',
-            kkm: 75
-        }
-    ];
-
-    // Fungsi untuk menampilkan data mata pelajaran
-    function renderMapelTable() {
-        const tbody = $('#mapelTableBody');
-        tbody.empty();
-
-        mapelData.forEach((mapel, index) => {
-            tbody.append(`
-                <tr>
-                    <td>${index + 1}</td>
-                    <td>${mapel.kode}</td>
-                    <td>${mapel.nama}</td>
-                    <td>${mapel.jurusan}</td>
-                    <td>${mapel.kkm}</td>
-                    <td>
-                        <button class="btn btn-sm btn-warning" onclick="editMapel(${mapel.id})">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                        <button class="btn btn-sm btn-danger" onclick="deleteMapel(${mapel.id})">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </td>
-                </tr>
-            `);
+    function filterMapel() {
+        var filterValue = document.getElementById("filterJurusan").value;
+        var rows = document.querySelectorAll("#mapelTableBody .mapel-row");
+        
+        rows.forEach(function(row) {
+            if (filterValue === "" || row.getAttribute("data-jurusan-id") === filterValue) {
+                row.style.display = "";
+            } else {
+                row.style.display = "none";
+            }
         });
     }
-
-    // Inisialisasi DataTable
-    $('#dataTable').DataTable();
-    
-    // Render tabel mata pelajaran
-    renderMapelTable();
-
-    // Filter berdasarkan jurusan
-    $('#filterJurusan').change(function() {
-        const selectedJurusan = $(this).val();
-        // Implementasi filter
-    });
-});
-
-// Fungsi-fungsi handler form
-function handleSubmit(event) {
-    event.preventDefault();
-    // Implementasi tambah mata pelajaran
-}
-
-function editMapel(id) {
-    // Implementasi edit mata pelajaran
-}
-
-function deleteMapel(id) {
-    // Implementasi hapus mata pelajaran
-}
 </script>
+
 @endsection
