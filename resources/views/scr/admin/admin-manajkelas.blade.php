@@ -1,4 +1,4 @@
-@extends('layouts.appadmin')
+ @extends('layouts.appadmin')
 
 @section('content')
     <div class="container-fluid">
@@ -6,24 +6,18 @@
             @include('layouts.sidebar.admin-appsidebar')
 
             <main class="col-12 col-md-9 ms-sm-auto col-lg-10 px-md-4">
-                <!-- Header -->
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                     <h1 class="h2">Manajemen Jurusan & Kelas</h1>
                 </div>
 
                 @if (session('success'))
-                    <div class="alert alert-success">
-                        {{ session('success') }}
-                    </div>
+                    <div class="alert alert-success">{{ session('success') }}</div>
                 @endif
 
                 @if (session('error'))
-                    <div class="alert alert-danger">
-                        {{ session('error') }}
-                    </div>
+                    <div class="alert alert-danger">{{ session('error') }}</div>
                 @endif
 
-                <!-- Tabel Jurusan -->
                 <div class="card shadow mb-4">
                     <div class="card-header py-3 d-flex justify-content-between align-items-center">
                         <h6 class="m-0 font-weight-bold text-primary">Daftar Jurusan</h6>
@@ -49,16 +43,13 @@
                                             <td>{{ $jurusan->kode_jurusan }}</td>
                                             <td>{{ $jurusan->nama_jurusan }}</td>
                                             <td>
-                                                <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
-                                                    data-bs-target="#editJurusanModal{{ $jurusan->id }}">
+                                                <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editJurusanModal{{ $jurusan->id }}">
                                                     <i class="fas fa-edit"></i>
                                                 </button>
-                                                <form action="{{ route('jurusan.delete', $jurusan->id) }}" method="POST"
-                                                    class="d-inline">
+                                                <form action="{{ route('jurusan.delete', $jurusan->id) }}" method="POST" class="d-inline">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-sm btn-danger"
-                                                        onclick="return confirm('Yakin hapus jurusan ini?')">
+                                                    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Yakin hapus jurusan ini?')">
                                                         <i class="fas fa-trash"></i>
                                                     </button>
                                                 </form>
@@ -71,16 +62,13 @@
                     </div>
                 </div>
 
-                <!-- Modal Edit Jurusan -->
                 @foreach ($jurusans as $jurusan)
-                    <div class="modal fade" id="editJurusanModal{{ $jurusan->id }}" tabindex="-1"
-                        aria-labelledby="editJurusanModalLabel{{ $jurusan->id }}" aria-hidden="true">
+                    <div class="modal fade" id="editJurusanModal{{ $jurusan->id }}" tabindex="-1" aria-labelledby="editJurusanModalLabel{{ $jurusan->id }}" aria-hidden="true">
                         <div class="modal-dialog modal-lg">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="editJurusanModalLabel{{ $jurusan->id }}">Edit Jurusan</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <form action="{{ route('jurusan.update', $jurusan->id) }}" method="POST">
                                     @csrf
@@ -88,18 +76,15 @@
                                     <div class="modal-body">
                                         <div class="mb-3">
                                             <label class="form-label">Kode</label>
-                                            <input type="text" class="form-control" name="kode_jurusan"
-                                                value="{{ $jurusan->kode_jurusan }}" required maxlength="10">
+                                            <input type="text" class="form-control" name="kode_jurusan" value="{{ $jurusan->kode_jurusan }}" required maxlength="10">
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label">Nama</label>
-                                            <input type="text" class="form-control" name="nama_jurusan"
-                                                value="{{ $jurusan->nama_jurusan }}" required maxlength="255">
+                                            <input type="text" class="form-control" name="nama_jurusan" value="{{ $jurusan->nama_jurusan }}" required maxlength="255">
                                         </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary"
-                                            data-bs-dismiss="modal">Batal</button>
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
                                         <button type="submit" class="btn btn-primary">Simpan</button>
                                     </div>
                                 </form>
@@ -108,28 +93,23 @@
                     </div>
                 @endforeach
 
-                <!-- Modal Tambah Jurusan -->
-                <div class="modal fade" id="tambahJurusanModal" tabindex="-1" aria-labelledby="tambahJurusanModalLabel"
-                    aria-hidden="true">
+                <div class="modal fade" id="tambahJurusanModal" tabindex="-1" aria-labelledby="tambahJurusanModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-lg">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="tambahJurusanModalLabel">Tambah Jurusan</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <form action="{{ route('jurusan.store') }}" method="POST">
                                 @csrf
                                 <div class="modal-body">
                                     <div class="mb-3">
                                         <label class="form-label">Kode</label>
-                                        <input type="text" class="form-control" name="kode_jurusan" required
-                                            maxlength="10">
+                                        <input type="text" class="form-control" name="kode_jurusan" required maxlength="10">
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label">Nama</label>
-                                        <input type="text" class="form-control" name="nama_jurusan" required
-                                            maxlength="255">
+                                        <input type="text" class="form-control" name="nama_jurusan" required maxlength="255">
                                     </div>
                                 </div>
                                 <div class="modal-footer">
@@ -141,7 +121,6 @@
                     </div>
                 </div>
 
-                <!-- Manajemen Kelas -->
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                     <h1 class="h2">Manajemen Kelas</h1>
                     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tambahKelasModal">
@@ -150,7 +129,6 @@
                 </div>
 
                 <div class="card shadow mb-4">
-                    <!-- Filter Kelas -->
                     <div class="card-body">
                         <label class="form-label">Filter Kelas</label>
                         <div class="row align-items-center">
@@ -233,9 +211,7 @@
     </div>
 </div>
 
-<!-- Modal Tambah Kelas -->
-<div class="modal fade" id="tambahKelasModal" tabindex="-1" aria-labelledby="tambahKelasModalLabel"
-    aria-hidden="true">
+<div class="modal fade" id="tambahKelasModal" tabindex="-1" aria-labelledby="tambahKelasModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -286,10 +262,8 @@
     </div>
 </div>
 
-<!-- Modal Edit Kelas -->
 @foreach ($kelas as $kelasItem)
-    <div class="modal fade" id="editKelasModal{{ $kelasItem->id }}" tabindex="-1"
-        aria-labelledby="editKelasModalLabel{{ $kelasItem->id }}" aria-hidden="true">
+    <div class="modal fade" id="editKelasModal{{ $kelasItem->id }}" tabindex="-1" aria-labelledby="editKelasModalLabel{{ $kelasItem->id }}" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -305,8 +279,7 @@
                             <select class="form-select" name="tingkat" required>
                                 <option value="X" {{ $kelasItem->tingkat == 'X' ? 'selected' : '' }}>X</option>
                                 <option value="XI" {{ $kelasItem->tingkat == 'XI' ? 'selected' : '' }}>XI</option>
-                                <option value="XII" {{ $kelasItem->tingkat == 'XII' ? 'selected' : '' }}>XII
-                                </option>
+                                <option value="XII" {{ $kelasItem->tingkat == 'XII' ? 'selected' : '' }}>XII</option>
                             </select>
                         </div>
                         <div class="mb-3">
@@ -314,8 +287,7 @@
                             <select class="form-select" name="jurusan_id" required>
                                 <option value="">Pilih Jurusan</option>
                                 @foreach ($jurusans as $jurusan)
-                                    <option value="{{ $jurusan->id }}"
-                                        {{ $jurusan->id == $kelasItem->jurusan_id ? 'selected' : '' }}>
+                                    <option value="{{ $jurusan->id }}" {{ $jurusan->id == $kelasItem->jurusan_id ? 'selected' : '' }}>
                                         {{ $jurusan->nama_jurusan }}</option>
                                 @endforeach
                             </select>
@@ -325,16 +297,14 @@
                             <select class="form-select" name="wali_kelas">
                                 <option value="">Pilih Wali Kelas</option>
                                 @foreach ($waliKelas as $wali)
-                                    <option value="{{ $wali->id }}"
-                                        {{ $wali->id == $kelasItem->wali_kelas ? 'selected' : '' }}>
+                                    <option value="{{ $wali->id }}" {{ $wali->id == $kelasItem->wali_kelas ? 'selected' : '' }}>
                                         {{ $wali->name }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Nama Kelas</label>
-                            <input type="text" class="form-control" name="nama_kelas"
-                                value="{{ $kelasItem->nama_kelas }}" required maxlength="255">
+                            <input type="text" class="form-control" name="nama_kelas" value="{{ $kelasItem->nama_kelas }}" required maxlength="255">
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -349,23 +319,19 @@
 
 <script>
     function filterKelas() {
-        var filterTingkat = document.getElementById("filterTingkat").value;
-        var filterJurusan = document.getElementById("filterJurusan").value;
-        var filterWaliKelas = document.getElementById("filterWaliKelas").value;
-        var rows = document.querySelectorAll("#kelasTableBody .kelas-row");
+        const filterTingkat = document.getElementById("filterTingkat").value;
+        const filterJurusan = document.getElementById("filterJurusan").value;
+        const filterWaliKelas = document.getElementById("filterWaliKelas").value;
+        const rows = document.querySelectorAll("#kelasTableBody .kelas-row");
 
-        rows.forEach(function(row) {
-            var tingkat = row.getAttribute("data-tingkat");
-            var jurusanId = row.getAttribute("data-jurusan-id");
-            var waliId = row.getAttribute("data-wali-id");
+        rows.forEach(row => {
+            const tingkat = row.getAttribute("data-tingkat");
+            const jurusanId = row.getAttribute("data-jurusan-id");
+            const waliId = row.getAttribute("data-wali-id");
 
-            if ((filterTingkat === "" || tingkat === filterTingkat) &&
-                (filterJurusan === "" || jurusanId === filterJurusan) &&
-                (filterWaliKelas === "" || waliId === filterWaliKelas)) {
-                row.style.display = "";
-            } else {
-                row.style.display = "none";
-            }
+            row.style.display = (filterTingkat === "" || tingkat === filterTingkat) &&
+                                (filterJurusan === "" || jurusanId === filterJurusan) &&
+                                (filterWaliKelas === "" || waliId === filterWaliKelas) ? "" : "none";
         });
     }
 
