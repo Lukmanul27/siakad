@@ -6,7 +6,8 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\JurusanController;
 use App\Http\Controllers\Admin\KelasController;
 use App\Http\Controllers\Admin\MapelController; 
-use App\Http\Controllers\Admin\SiswaController; // Menambahkan import model SiswaController
+use App\Http\Controllers\Admin\SiswaController; 
+use App\Http\Controllers\Admin\JadwalController; // Menambahkan import model JadwalController
 use App\Models\Kelas; 
 use App\Models\Jurusan; 
 use App\Models\User; 
@@ -30,14 +31,14 @@ Route::middleware(['auth'])->group(function () {
         Route::view('/dashboard', 'scr.admin.admin-dashboard')->name('admin.dashboard');
         Route::get('/manajguru', [UserController::class, 'manajGuru'])->name('admin.manajguru');
         Route::get('/manajkelas', [KelasController::class, 'index'])->name('admin.manajkelas'); 
-        Route::get('/manajsiswa', [SiswaController::class, 'index'])->name('admin.manajsiswa'); // Mengubah view menjadi route ke controller
+        Route::get('/manajsiswa', [SiswaController::class, 'index'])->name('admin.manajsiswa'); 
         
         // Routes CRUD Siswa
-        Route::post('/siswa/store', [SiswaController::class, 'store'])->name('admin.siswa.store'); // Menyimpan siswa baru
-        Route::put('/siswa/update/{id}', [SiswaController::class, 'update'])->name('admin.siswa.update'); // Memperbarui siswa
-        Route::put('/kelas/update/{id}', [KelasController::class, 'update'])->name('admin.kelas.update'); // Memperbarui kelas
-        Route::delete('/siswa/delete/{id}', [SiswaController::class, 'destroy'])->name('admin.siswa.destroy'); // Menghapus siswa
-        Route::get('/siswa/edit/{id}', [SiswaController::class, 'edit'])->name('admin.siswa.edit'); // Menambahkan route untuk edit siswa
+        Route::post('/siswa/store', [SiswaController::class, 'store'])->name('admin.siswa.store'); 
+        Route::put('/siswa/update/{id}', [SiswaController::class, 'update'])->name('admin.siswa.update'); 
+        Route::put('/kelas/update/{id}', [KelasController::class, 'update'])->name('admin.kelas.update'); 
+        Route::delete('/siswa/delete/{id}', [SiswaController::class, 'destroy'])->name('admin.siswa.destroy'); 
+        Route::get('/siswa/edit/{id}', [SiswaController::class, 'edit'])->name('admin.siswa.edit'); 
 
         // Routes CRUD Mata Pelajaran
         Route::get('/manajmapel', [MapelController::class, 'index'])->name('admin.manajmapel'); 
@@ -45,7 +46,13 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/mapel/update/{id}', [MapelController::class, 'update'])->name('admin.mapel.update'); 
         Route::delete('/mapel/delete/{id}', [MapelController::class, 'destroy'])->name('admin.mapel.destroy'); 
 
+        // Routes CRUD Jadwal
         Route::view('/manajjadwal', 'scr.admin.admin-manajjadwal')->name('admin.manajjadwal');
+        Route::get('/manajjadwal', [JadwalController::class, 'index'])->name('admin.manajjadwal'); 
+        Route::post('/jadwal/store', [JadwalController::class, 'store'])->name('admin.jadwal.store'); 
+        Route::put('/jadwal/update/{id}', [JadwalController::class, 'update'])->name('admin.jadwal.update'); 
+        Route::delete('/jadwal/delete/{id}', [JadwalController::class, 'destroy'])->name('admin.jadwal.destroy'); 
+
         Route::view('/pengumuman', 'scr.admin.admin-pengumuman')->name('admin.pengumuman');
 
         Route::middleware('can:admin-access')->group(function() {
