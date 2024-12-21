@@ -180,7 +180,7 @@
                                     </tr>
                                 </thead>
                                 <tbody id="kelasTableBody">
-                                    @foreach ($kelas as $index => $kelasItem)
+                                    @foreach ($kelas->sortBy('jurusan_id') as $index => $kelasItem)
                                         <tr class="kelas-row" data-tingkat="{{ $kelasItem->tingkat }}" data-jurusan-id="{{ $kelasItem->jurusan_id }}" data-wali-id="{{ $kelasItem->wali_kelas }}">
                                             <td>{{ $index + 1 }}</td>
                                             <td>{{ $kelasItem->tingkat }}</td>
