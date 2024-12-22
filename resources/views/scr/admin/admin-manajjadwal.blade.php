@@ -52,22 +52,24 @@
                                 </thead>
                                 <tbody id="jadwalTableBody">
                                     @foreach ($jadwals as $jadwal)
-                                        <tr>
-                                            <td>{{ $jadwal->hari }}</td>
-                                            <td>{{ $jadwal->kelas->nama_kelas }}</td>
-                                            <td>{{ $jadwal->jam_ke }}</td>
-                                            <td>{{ $jadwal->waktu }}</td>
-                                            <td>{{ $jadwal->mataPelajaran->nama_mapel }}</td>
-                                            <td>{{ $jadwal->guru->name }}</td>
-                                            <td>{{ $jadwal->jurusan->nama_jurusan ?? 'Tidak Diketahui' }}</td>
+                                        <tr data-id="{{ $jadwal->id }}">
+                                            <td class="hari">{{ $jadwal->hari }}</td>
+                                            <td class="kelas">{{ $jadwal->kelas ? $jadwal->kelas->nama_kelas : 'Semua Kelas' }}</td>
+                                            <td class="jam-ke">{{ $jadwal->jam_ke }}</td>
+                                            <td class="waktu">{{ $jadwal->waktu }}</td>
                                             <td>
-                                                <button class="btn btn-warning" data-bs-toggle="modal"
-                                                    data-bs-target="#editJadwalModal{{ $jadwal->id }}">Edit</button>
-                                                <form action="{{ route('admin.jadwal.destroy', $jadwal->id) }}"
-                                                    method="POST" style="display:inline;">
+                                                {{ $jadwal->mataPelajaran ? $jadwal->mataPelajaran->nama : ($jadwal->mata_pelajaran_id == '90' ? 'Upacara' : ($jadwal->mata_pelajaran_id == '91' ? 'Istirahat' : 'Apel')) }}
+                                            </td>
+                                            <td>
+                                                {{ $jadwal->guru ? $jadwal->guru->name : (isset($jadwal->guru_id) && $jadwal->guru_id == '94' ? '-' : 'Semuanya') }}
+                                            </td>
+                                            <td class="jurusan">{{ $jadwal->jurusan->nama_jurusan ?? 'Semua Jurusan' }}</td>
+                                            <td>
+                                                <button class="btn btn-warning edit-btn" data-id="{{ $jadwal->id }}" data-bs-toggle="modal" data-bs-target="#editJadwalModal{{ $jadwal->id }}">Edit</button>
+                                                <form action="{{ route('admin.jadwal.destroy', $jadwal->id) }}" method="POST" style="display:inline;">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger">Hapus</button>
+                                                    <button type="submit" class="btn btn-danger delete-btn" data-id="{{ $jadwal->id }}">Hapus</button>
                                                 </form>
                                             </td>
                                         </tr>
@@ -130,7 +132,7 @@
                                     <option value="{{ $k->id }}" data-jurusan="{{ $k->jurusan_id }}">
                                         {{ $k->nama_kelas }}</option>
                                 @endforeach
-                                <option value="all">Seluruh Kelas</option>
+                                <option value="95">Seluruh Kelas</option>
                             </select>
                         </div>
                         <div class="mb-3" id="jamKeContainer" style="display: none;">
@@ -162,9 +164,6 @@
                             <label class="form-label">Guru Pengajar</label>
                             <select class="form-select" id="guruSelect" name="guru_id" required>
                                 <option value="">Pilih Guru</option>
-                                @foreach ($gurus as $guru)
-                                    <option value="{{ $guru->id }}">{{ $guru->name }}</option>
-                                @endforeach
                             </select>
                         </div>
                     </form>
@@ -194,23 +193,27 @@
                 jamKeContainer.style.display = 'block';
                 waktuContainer.style.display = 'block';
                 mataPelajaranContainer.style.display = 'block';
-
                 mataPelajaranSelect.innerHTML = '<option value="">Pilih Mata Pelajaran</option>';
 
                 if (jurusanId === "0") {
-                    mataPelajaranSelect.innerHTML += '<option value="upacara">Upacara</option>';
-                    mataPelajaranSelect.innerHTML += '<option value="istirahat">Istirahat</option>';
-                    mataPelajaranSelect.innerHTML += '<option value="apel">Apel</option>';
-                    guruSelect.disabled = true;
-
+                    mataPelajaranSelect.innerHTML = '<option value="90">Upacara</option>' +
+                                                    '<option value="91">Istirahat</option>' +
+                                                    '<option value="92">Apel</option>';
+                    guruSelect.innerHTML = '<option value="93">Semua Guru</option>' +
+                                           '<option value="94"> - </option>';
+                    
                     Array.from(kelasSelect.options).forEach(option => option.selected = true);
                 } else {
-                    guruSelect.disabled = false;
                     @foreach ($mapels as $mapel)
                         if ({{ $mapel->jurusan_id }} == jurusanId) {
                             mataPelajaranSelect.innerHTML +=
                                 '<option value="{{ $mapel->id }}">{{ $mapel->nama }}</option>';
                         }
+                    @endforeach
+
+                    guruSelect.innerHTML = '<option value="">Pilih Guru</option>'; // Reset guruSelect
+                    @foreach ($gurus as $guru)
+                        guruSelect.innerHTML += '<option value="{{ $guru->id }}">{{ $guru->name }}</option>';
                     @endforeach
 
                     Array.from(kelasSelect.options).forEach(option => {
@@ -222,7 +225,7 @@
                 jamKeContainer.style.display = 'none';
                 waktuContainer.style.display = 'none';
                 mataPelajaranContainer.style.display = 'none';
-                guruSelect.disabled = false;
+                guruSelect.style.display = 'none';
             }
         }
 

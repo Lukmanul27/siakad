@@ -48,7 +48,7 @@ Route::middleware(['auth'])->group(function () {
 
         // Routes CRUD Jadwal
         Route::get('/manajjadwal', [JadwalController::class, 'index'])->name('admin.manajjadwal'); 
-        Route::post('/admin/jadwal/store', [JadwalController::class, 'store'])->name('admin.jadwal.store'); 
+        Route::post('/jadwal/store', [JadwalController::class, 'store'])->name('admin.jadwal.store'); 
         Route::put('/jadwal/update/{id}', [JadwalController::class, 'update'])->name('admin.jadwal.update'); 
         Route::delete('/jadwal/delete/{id}', [JadwalController::class, 'destroy'])->name('admin.jadwal.destroy'); 
 

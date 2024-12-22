@@ -29,21 +29,19 @@ class JadwalController extends Controller
 
     public function create()
     {
-        // Ambil data jurusan, kelas, mata pelajaran, dan guru
         $jurusans = Jurusan::all();
         $kelas = Kelas::all();
         $mapels = Mapel::all();
         $gurus = User::where('role', 'guru')->get();
 
-        // Menyaring kelas berdasarkan jurusan jika jurusan dipilih
         $selectedJurusan = old('jurusan_id', null);
-        if ($selectedJurusan && $selectedJurusan != '0') {
-            $kelas = Kelas::where('jurusan_id', $selectedJurusan)->get();
-            $mapels = Mapel::where('jurusan_id', $selectedJurusan)->get();
+        $jurusan_id = $selectedJurusan ?? '0';
+        if ($jurusan_id && $jurusan_id != '0') {
+            $kelas = Kelas::where('jurusan_id', $jurusan_id)->get();
+            $mapels = Mapel::where('jurusan_id', $jurusan_id)->get();
         }
 
-        // Jika "Seluruh Jurusan" dipilih, munculkan kelas dari semua jurusan dan mata pelajaran khusus
-        if ($selectedJurusan == '0') {
+        if ($jurusan_id == '0') {
             $kelas = Kelas::all();
             $mapels = [
                 (object)['id' => 'upacara', 'nama' => 'Upacara'],
@@ -52,9 +50,9 @@ class JadwalController extends Controller
             ];
         }
 
-        return view('admin.jadwal.create', compact('jurusans', 'kelas', 'mapels', 'gurus'));
+        return view('scr.admin.admin-manajjadwal', compact('jurusans', 'kelas', 'mapels', 'gurus'));
     }
-
+    
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -67,8 +65,15 @@ class JadwalController extends Controller
             'guru_id' => 'required|integer',
         ]);
 
-        // Simpan ke database
-        Jadwal::create($validated);
+        Jadwal::create([
+            'hari' => $validated['hari'],
+            'jurusan_id' => $validated['jurusan_id'],
+            'kelas_id' => $validated['kelas_id'] ?? null,
+            'jam_ke' => $validated['jam_ke'],
+            'waktu' => $validated['waktu'],
+            'mata_pelajaran_id' => $validated['mata_pelajaran_id'],
+            'guru_id' => $validated['guru_id'],
+        ]);
 
         return redirect()->back()->with('success', 'Jadwal berhasil ditambahkan.');
     }
@@ -86,7 +91,7 @@ class JadwalController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-           'hari' => 'required|string',
+            'hari' => 'required|string',
             'jurusan_id' => 'required|integer',
             'kelas_id' => 'nullable|integer',
             'jam_ke' => 'required|integer',
@@ -105,5 +110,27 @@ class JadwalController extends Controller
         $jadwal = Jadwal::findOrFail($id);
         $jadwal->delete();
         return redirect()->route('admin.manajjadwal')->with('success', 'Jadwal berhasil dihapus.');
+    }
+
+    public function getMataPelajaran(Request $request)
+    {
+        $jurusanId = $request->input('jurusan_id');
+        $kelas = Kelas::where('jurusan_id', $jurusanId)->get();
+        $mataPelajaran = [];
+
+        if ($jurusanId == 0) {
+            $mataPelajaran = [
+                ['id' => 'upacara', 'nama' => 'Upacara'],
+                ['id' => 'istirahat', 'nama' => 'Istirahat'],
+                ['id' => 'apel', 'nama' => 'Apel']
+            ];
+        } else {
+            $mataPelajaran = Mapel::where('jurusan_id', $jurusanId)->get();
+        }
+
+        return response()->json([
+            'mataPelajaran' => $mataPelajaran,
+            'kelas' => $kelas,
+        ]);
     }
 }
