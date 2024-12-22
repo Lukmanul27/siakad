@@ -17,16 +17,16 @@
                 <div class="card shadow mb-4">
                     <div class="card-body">
                         <div class="row align-items-center">
-                            <div class="col-md-3">
+                            {{-- <div class="col-md-3">
                                 <select class="form-select" id="filterKelas" name="kelas_id" onchange="filterJadwal()">
                                     <option value="">Pilih Kelas</option>
                                     @foreach ($kelas as $k)
-                                        <option value="{{ $k->id }}" data-jurusan="{{ $k->jurusan_id }}">
+                                        <option value="{{ $k->id }}" data-jurusan="{{ $k->kelas_id }}">
                                             {{ $k->nama_kelas }}</option>
                                     @endforeach
                                     <option value="">Semua Kelas</option>
                                 </select>
-                            </div>
+                            </div> --}}
                             <div class="col-md-3">
                                 <select class="form-select" id="filterHari" name="hari" onchange="filterJadwal()">
                                     <option value="">Pilih Hari</option>
@@ -39,34 +39,12 @@
                                 </select>
                             </div>
                             <div class="col-md-3">
-                                <button class="btn btn-secondary" id="resetFilter" onclick="resetFilter()">Reset Filter</button>
+                                <button class="btn btn-secondary" id="resetFilter" onclick="resetFilter()">Reset
+                                    Filter</button>
                             </div>
                         </div>
                     </div>
                 </div>
-                <script>
-                    function filterJadwal() {
-                        const filterKelas = document.getElementById("filterKelas").value;
-                        const filterHari = document.getElementById("filterHari").value;
-                        const rows = document.querySelectorAll("#jadwalTableBody tr");
-
-                        rows.forEach(row => {
-                            const kelas = row.querySelector(".kelas").textContent;
-                            const hari = row.querySelector(".hari").textContent;
-
-                            const kelasMatch = filterKelas === "" || kelas.includes(filterKelas);
-                            const hariMatch = filterHari === "" || hari === filterHari;
-
-                            row.style.display = kelasMatch && hariMatch ? "" : "none";
-                        });
-                    }
-
-                    function resetFilter() {
-                        document.getElementById("filterKelas").value = "";
-                        document.getElementById("filterHari").value = "";
-                        filterJadwal();
-                    }
-                </script>
 
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
@@ -192,5 +170,22 @@
             });
             document.getElementById('guruSelect').disabled = false;
         });
+        function filterJadwal() {
+            const filterHari = document.getElementById("filterHari").value;
+            const rows = document.querySelectorAll("#jadwalTableBody tr");
+
+            rows.forEach(row => {
+                const hari = row.querySelector(".hari").textContent;
+
+                const hariMatch = filterHari === "" || hari === filterHari;
+
+                row.style.display = hariMatch ? "" : "none";
+            });
+        }
+
+        function resetFilter() {
+            document.getElementById("filterHari").value = "";
+            filterJadwal();
+        }
     </script>
 @endsection
