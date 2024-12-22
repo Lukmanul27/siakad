@@ -54,7 +54,8 @@
                                     @foreach ($jadwals as $jadwal)
                                         <tr data-id="{{ $jadwal->id }}">
                                             <td class="hari">{{ $jadwal->hari }}</td>
-                                            <td class="kelas">{{ $jadwal->kelas ? $jadwal->kelas->nama_kelas : 'Semua Kelas' }}</td>
+                                            <td class="kelas">
+                                                {{ $jadwal->kelas ? $jadwal->kelas->nama_kelas : 'Semua Kelas' }}</td>
                                             <td class="jam-ke">{{ $jadwal->jam_ke }}</td>
                                             <td class="waktu">{{ $jadwal->waktu }}</td>
                                             <td>
@@ -63,13 +64,18 @@
                                             <td>
                                                 {{ $jadwal->guru ? $jadwal->guru->name : (isset($jadwal->guru_id) && $jadwal->guru_id == '94' ? '-' : 'Semuanya') }}
                                             </td>
-                                            <td class="jurusan">{{ $jadwal->jurusan->nama_jurusan ?? 'Semua Jurusan' }}</td>
+                                            <td class="jurusan">{{ $jadwal->jurusan->nama_jurusan ?? 'Semua Jurusan' }}
+                                            </td>
                                             <td>
-                                                <button class="btn btn-warning edit-btn" data-id="{{ $jadwal->id }}" data-bs-toggle="modal" data-bs-target="#editJadwalModal{{ $jadwal->id }}">Edit</button>
-                                                <form action="{{ route('admin.jadwal.destroy', $jadwal->id) }}" method="POST" style="display:inline;">
+                                                <button class="btn btn-warning edit-btn" data-id="{{ $jadwal->id }}"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#editJadwalModal{{ $jadwal->id }}">Edit</button>
+                                                <form action="{{ route('admin.jadwal.destroy', $jadwal->id) }}"
+                                                    method="POST" style="display:inline;">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger delete-btn" data-id="{{ $jadwal->id }}">Hapus</button>
+                                                    <button type="submit" class="btn btn-danger delete-btn"
+                                                        data-id="{{ $jadwal->id }}">Hapus</button>
                                                 </form>
                                             </td>
                                         </tr>
@@ -83,99 +89,7 @@
         </div>
     </div>
 
-    <div class="modal fade" id="tambahJadwalModal" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Tambah Jadwal Pelajaran</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="formTambahJadwal" action="{{ route('admin.jadwal.store') }}" method="POST">
-                        @csrf
-
-                        @if ($errors->any())
-                            <div class="alert alert-danger">
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        @endif
-
-                        <div class="mb-3">
-                            <label class="form-label">Hari</label>
-                            <select class="form-select" name="hari" required>
-                                <option value="">Pilih Hari</option>
-                                @foreach (['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'] as $hari)
-                                    <option value="{{ $hari }}">{{ $hari }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Jurusan</label>
-                            <select class="form-select" id="jurusanSelect" name="jurusan_id" required
-                                onchange="toggleFields()">
-                                <option value="">Pilih Jurusan</option>
-                                <option value="0">Seluruh Jurusan</option>
-                                @foreach ($jurusans as $jurusan)
-                                    <option value="{{ $jurusan->id }}">{{ $jurusan->nama_jurusan }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="mb-3" id="kelasContainer" style="display: none;">
-                            <label class="form-label">Kelas</label>
-                            <select class="form-select" id="kelasSelect" name="kelas_id" required>
-                                <option value="">Pilih Kelas</option>
-                                @foreach ($kelas as $k)
-                                    <option value="{{ $k->id }}" data-jurusan="{{ $k->jurusan_id }}">
-                                        {{ $k->nama_kelas }}</option>
-                                @endforeach
-                                <option value="95">Seluruh Kelas</option>
-                            </select>
-                        </div>
-                        <div class="mb-3" id="jamKeContainer" style="display: none;">
-                            <label class="form-label">Jam Ke</label>
-                            <select class="form-select" name="jam_ke" required>
-                                <option value="">Pilih Jam</option>
-                                @for ($i = 1; $i <= 10; $i++)
-                                    <option value="{{ $i }}">{{ $i }}</option>
-                                @endfor
-                            </select>
-                        </div>
-                        <div class="mb-3" id="waktuContainer" style="display: none;">
-                            <label class="form-label">Waktu</label>
-                            <select class="form-select" name="waktu" required>
-                                <option value="">Pilih Waktu</option>
-                                @for ($i = 0; $i < 10; $i++)
-                                    <option value="{{ date('H:i', strtotime('07:20') + $i * 45 * 60) }}">
-                                        {{ date('H:i', strtotime('07:20') + $i * 45 * 60) }}</option>
-                                @endfor
-                            </select>
-                        </div>
-                        <div class="mb-3" id="mataPelajaranContainer" style="display: none;">
-                            <label class="form-label">Mata Pelajaran</label>
-                            <select class="form-select" id="mataPelajaranSelect" name="mata_pelajaran_id" required>
-                                <option value="">Pilih Mata Pelajaran</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Guru Pengajar</label>
-                            <select class="form-select" id="guruSelect" name="guru_id" required>
-                                <option value="">Pilih Guru</option>
-                            </select>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                    <button type="button" class="btn btn-danger" id="resetForm">Reset</button>
-                    <button type="submit" form="formTambahJadwal" class="btn btn-primary">Simpan</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    @include('layouts.modals.admin-jadwals')
 
     <script>
         function toggleFields() {
@@ -197,11 +111,11 @@
 
                 if (jurusanId === "0") {
                     mataPelajaranSelect.innerHTML = '<option value="90">Upacara</option>' +
-                                                    '<option value="91">Istirahat</option>' +
-                                                    '<option value="92">Apel</option>';
+                        '<option value="91">Istirahat</option>' +
+                        '<option value="92">Apel</option>';
                     guruSelect.innerHTML = '<option value="93">Semua Guru</option>' +
-                                           '<option value="94"> - </option>';
-                    
+                        '<option value="94"> - </option>';
+
                     Array.from(kelasSelect.options).forEach(option => option.selected = true);
                 } else {
                     @foreach ($mapels as $mapel)
