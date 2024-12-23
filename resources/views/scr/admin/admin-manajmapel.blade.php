@@ -3,35 +3,28 @@
 @section('content')
     <div class="container-fluid">
         <div class="row">
-            <!-- Sidebar -->
             @include('layouts.sidebar.admin-appsidebar')
 
-            <!-- Main Content -->
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-                <div
-                    class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                    <h1 class="h2">Manajemen Mata Pelajaran</h1>
-                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tambahMapelModal">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2 text-dark">Manajemen Mata Pelajaran</h1>
+                    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#tambahMapelModal">
                         <i class="fas fa-plus"></i> Tambah Mata Pelajaran
                     </button>
                 </div>
 
                 @if (session('success'))
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        {{ session('success') }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
+                    <div class="alert alert-success">{{ session('success') }}</div>
                 @endif
 
                 @if (session('error'))
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        {{ session('error') }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
+                    <div class="alert alert-danger">{{ session('error') }}</div>
                 @endif
 
-                <!-- Filter Jurusan -->
                 <div class="card shadow mb-4">
+                    <div class="card-header py-3 bg-primary text-white">
+                        <h6 class="m-0 font-weight-bold">Filter Jurusan</h6>
+                    </div>
                     <div class="card-body">
                         <div class="row mb-3">
                             <div class="col-md-4">
@@ -50,15 +43,14 @@
                     </div>
                 </div>
 
-                <!-- Tabel Daftar Mata Pelajaran -->
                 <div class="card shadow mb-4">
-                    <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Daftar Mata Pelajaran</h6>
+                    <div class="card-header bg-primary text-white py-3">
+                        <h6 class="m-0 font-weight-bold">Daftar Mata Pelajaran</h6>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-bordered" id="dataTable">
-                                <thead>
+                            <table class="table table-hover table-bordered" id="dataTable">
+                                <thead class="table-light">
                                     <tr>
                                         <th>No</th>
                                         <th>Kode</th>
@@ -71,13 +63,13 @@
                                 <tbody id="mapelTableBody">
                                     @foreach ($mataPelajaran as $index => $mapel)
                                         <tr class="mapel-row" data-jurusan-id="{{ $mapel->jurusan_id }}">
-                                            <td class="row-number">{{ $index + 1 }}</td> <!-- Penomoran ditambahkan di sini -->
+                                            <td class="row-number">{{ $loop->iteration }}</td>
                                             <td>{{ $mapel->kode }}</td>
                                             <td>{{ $mapel->nama }}</td>
                                             <td>{{ $mapel->jurusan->nama_jurusan }}</td>
                                             <td>{{ $mapel->kkm }}</td>
                                             <td>
-                                                <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
+                                                <button class="btn btn-warning btn-sm" data-bs-toggle="modal"
                                                     data-bs-target="#editMapelModal{{ $mapel->id }}">
                                                     <i class="fas fa-edit"></i>
                                                 </button>
@@ -85,7 +77,7 @@
                                                     method="POST" class="d-inline">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-sm btn-danger"
+                                                    <button type="submit" class="btn btn-danger btn-sm"
                                                         onclick="return confirm('Apakah Anda yakin ingin menghapus mata pelajaran ini?')">
                                                         <i class="fas fa-trash"></i>
                                                     </button>
@@ -97,6 +89,7 @@
                             </table>
                         </div>
                     </div>
+                </div>
                 </div>
             </main>
         </div>

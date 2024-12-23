@@ -8,21 +8,22 @@
 
             <!-- Konten Utama -->
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-                <div
-                    class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                    <h1 class="h2">Manajemen Siswa</h1>
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-4 pb-3 mb-4 border-bottom">
+                    <h1 class="h2 text-dark">Manajemen Siswa</h1>
                     <div>
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tambahSiswaModal">
+                        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#tambahSiswaModal">
                             <i class="fas fa-plus"></i> Tambah Siswa
                         </button>
                     </div>
                 </div>
-
                 <div class="card shadow mb-4">
+                    <div class="card-header py-3 bg-primary text-white">
+                        <h6 class="m-0 font-weight-bold">Filter Siswa</h6>
+                    </div>
                     <div class="card-body">
-                        <div class="row mb-3">
+                        <div class="row mb-4">
                             <div class="col-md-4">
-                                <label for="filterJurusan" class="form-label">Jurusan</label>
+                                <label for="filterJurusan" class="form-label text-secondary">Jurusan</label>
                                 <select class="form-select" id="filterJurusan" onchange="updateKelasOptions(); filterTable();">
                                     <option value="">Semua Jurusan</option>
                                     @foreach ($jurusans as $jurusan)
@@ -31,14 +32,13 @@
                                 </select>
                             </div>
                             <div class="col-md-4">
-                                <label for="filterKelas" class="form-label">Kelas</label>
+                                <label for="filterKelas" class="form-label text-secondary">Kelas</label>
                                 <select class="form-select" id="filterKelas" onchange="filterTable();">
                                     <option value="">Pilih Kelas Berdasarkan Jurusan</option>
-                                    <!-- Kelas akan diisi berdasarkan jurusan yang dipilih -->
                                 </select>
                             </div>
                             <div class="col-md-4 d-flex align-items-end">
-                                <button class="btn btn-danger" id="resetFilter">Reset</button>
+                                <button class="btn btn-danger" id="resetFilter" onclick="resetFilter()">Reset</button>
                             </div>
                         </div>
                     </div>
@@ -46,14 +46,14 @@
 
                 <!-- Tabel Daftar Siswa -->
                 <div class="card shadow mb-4">
-                    <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                        <h6 class="m-0 font-weight-bold text-primary">Daftar Siswa</h6>
-                        <span class="badge bg-primary">{{ $siswas->count() }} Siswa Terdaftar</span>
+                    <div class="card-header py-3 d-flex justify-content-between align-items-center bg-primary text-white">
+                        <h6 class="m-0 font-weight-bold">Daftar Siswa</h6>
+                        <span class="badge bg-light text-dark">{{ $siswas->count() }} Siswa Terdaftar</span>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-bordered" id="dataTable">
-                                <thead>
+                            <table class="table table-striped table-bordered" id="dataTable">
+                                <thead class="table-light">
                                     <tr>
                                         <th>No</th>
                                         <th>NIS</th>

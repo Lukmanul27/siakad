@@ -12,8 +12,8 @@ body {
     left: 0;
     z-index: 100;
     padding: 48px 0 0;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* Mengurangi kontras bayangan */
-    background-color: #f0f0f0 !important; /* Mengurangi kontras warna latar belakang */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Bayangan sidebar */
+    background-color: #f0f0f0 !important; /* Warna latar belakang sidebar */
 }
 
 .sidebar-sticky {
@@ -27,19 +27,20 @@ body {
 
 .sidebar .nav-link {
     font-weight: 500;
-    color: #7a7d80; /* Mengurangi kontras warna teks */
-    padding: 0.5rem 1rem;
+    color: #495057; /* Warna teks link */
+    padding: 0.75rem 1rem; /* Padding link */
     margin: 0.2rem 0;
+    border-radius: 0.25rem; /* Sudut link */
 }
 
 .sidebar .nav-link:hover {
-    color: #5a6bdf; /* Mengurangi kontras warna saat hover */
-    background-color: #e9ecef; /* Mengurangi kontras warna latar belakang saat hover */
+    color: #ffffff; /* Warna teks saat hover */
+    background-color: #007bff; /* Warna latar belakang saat hover */
 }
 
 .sidebar .nav-link.active {
-    color: #5a6bdf; /* Mengurangi kontras warna teks aktif */
-    background-color: #d0d7e0; /* Mengurangi kontras warna latar belakang aktif */
+    color: #ffffff; /* Warna teks aktif */
+    background-color: #0056b3; /* Warna latar belakang aktif */
 }
 
 .sidebar .nav-link i {
@@ -47,59 +48,59 @@ body {
     width: 1.25rem;
 }
 
-/* Cards */
+/* Kartu */
 .card {
     border: none;
-    transition: all 0.3s ease;
+    transition: all 0.3s ease; /* Transisi kartu */
 }
 
 .card:hover {
-    transform: translateY(-3px); /* Mengurangi efek hover */
+    transform: translateY(-3px); /* Efek saat hover */
 }
 
-/* Warna border sesuai dengan dashboard */
+/* Warna border */
 .border-left-primary {
-    border-left: 4px solid #5a6bdf; /* Mengurangi kontras warna biru */
+    border-left: 4px solid #007bff; /* Border biru */
 }
 
 .border-left-success {
-    border-left: 4px solid #1ab88a; /* Mengurangi kontras warna hijau */
+    border-left: 4px solid #28a745; /* Border hijau */
 }
 
 .border-left-info {
-    border-left: 4px solid #2db9cc; /* Mengurangi kontras warna cyan */
+    border-left: 4px solid #17a2b8; /* Border cyan */
 }
 
 .border-left-warning {
-    border-left: 4px solid #f0c23e; /* Mengurangi kontras warna kuning */
+    border-left: 4px solid #ffc107; /* Border kuning */
 }
 
 /* Warna teks */
 .text-primary {
-    color: #5a6bdf !important; /* Mengurangi kontras warna teks */
+    color: #007bff !important; /* Teks biru */
 }
 
 .text-success {
-    color: #1ab88a !important; /* Mengurangi kontras warna teks */
+    color: #28a745 !important; /* Teks hijau */
 }
 
 .text-info {
-    color: #2db9cc !important; /* Mengurangi kontras warna teks */
+    color: #17a2b8 !important; /* Teks cyan */
 }
 
 .text-warning {
-    color: #f0c23e !important; /* Mengurangi kontras warna teks */
+    color: #ffc107 !important; /* Teks kuning */
 }
 
 .text-gray-300 {
-    color: #e0e0e0 !important; /* Mengurangi kontras warna teks */
+    color: #e0e0e0 !important; /* Teks abu-abu */
 }
 
 .text-gray-800 {
-    color: #6a6c69 !important; /* Mengurangi kontras warna teks */
+    color: #343a40 !important; /* Teks gelap */
 }
 
-/* Loading Animation */
+/* Animasi Loading */
 .loading {
     display: none;
     position: fixed;
@@ -107,27 +108,27 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(255,255,255,0.8);
+    background: rgba(255, 255, 255, 0.8);
     z-index: 9999;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-/* Recent Activities */
+/* Aktivitas Terbaru */
 .list-group-item {
     border: none;
     margin-bottom: 0.5rem;
     border-radius: 0.35rem;
-    transition: all 0.2s;
+    transition: all 0.2s; /* Transisi item daftar */
 }
 
 .list-group-item:hover {
-    background-color: #f0f0f0; /* Mengurangi kontras warna latar belakang saat hover */
-    transform: translateX(3px); /* Mengurangi efek hover */
+    background-color: #f0f0f0; /* Warna latar belakang saat hover */
+    transform: translateX(3px); /* Efek saat hover */
 }
 
-/* Responsive */
+/* Responsif */
 @media (max-width: 768px) {
     .sidebar {
         position: static;

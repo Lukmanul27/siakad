@@ -63,7 +63,7 @@
                     </div>
                     <div class="mb-3" id="waktuContainer" style="display: none;">
                             <label class="form-label">Waktu</label>
-                            <input type="time" class="form-control" name="waktu" value="{{ $jadwal->waktu }}"
+                            <input type="time" class="form-control" name="waktu" value="{{ old('waktu') }}"
                                 required />
                     </div>
                     <div class="mb-3" id="mataPelajaranContainer" style="display: none;">
@@ -83,7 +83,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
                 <button type="button" class="btn btn-danger" id="resetForm">Reset</button>
-                <button type="submit" form="formTambahJadwal" class="btn btn-primary">Simpan</button>
+                <button type="submit" form="formTambahJadwal" class="btn btn-success">Simpan</button>
             </div>
         </div>
     </div>
@@ -190,9 +190,9 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Batal</button>
                     <button type="submit" form="formEditJadwal{{ $jadwal->id }}"
-                        class="btn btn-primary">Simpan</button>
+                        class="btn btn-success">Simpan</button>
                 </div>
             </div>
         </div>

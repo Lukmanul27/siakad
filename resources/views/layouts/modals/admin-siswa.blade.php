@@ -48,8 +48,8 @@
                             <textarea class="form-control" name="alamat" rows="3" required></textarea>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                            <button type="submit" class="btn btn-primary">Simpan</button>
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Batal</button>
+                            <button type="submit" class="btn btn-success">Simpan</button>
                         </div>
                     </form>
                 </div>
@@ -112,8 +112,8 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                    <button type="submit" form="formEditSiswa" class="btn btn-primary"
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" form="formEditSiswa" class="btn btn-success"
                         onclick="event.preventDefault(); document.getElementById('formEditSiswa').setAttribute('action', '{{ route('admin.siswa.update', 'siswa_id') }}'.replace('siswa_id', document.getElementById('editSiswaId').value)); document.getElementById('formEditSiswa').submit();">Simpan</button>
                 </div>
             </div>
