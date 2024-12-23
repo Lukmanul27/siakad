@@ -39,8 +39,7 @@
                                 </select>
                             </div>
                             <div class="col-md-3">
-                                <button class="btn btn-secondary" id="resetFilter" onclick="resetFilter()">Reset
-                                    Filter</button>
+                                <button class="btn btn-danger" id="resetFilter" onclick="resetFilter()">Reset</button>
                             </div>
                         </div>
                     </div>
@@ -84,13 +83,13 @@
                                             <td>
                                                 <button class="btn btn-warning edit-btn" data-id="{{ $jadwal->id }}"
                                                     data-bs-toggle="modal"
-                                                    data-bs-target="#editJadwalModal{{ $jadwal->id }}">Edit</button>
+                                                    data-bs-target="#editJadwalModal{{ $jadwal->id }}"><i class="fas fa-edit"></i></button>
                                                 <form action="{{ route('admin.jadwal.destroy', $jadwal->id) }}"
                                                     method="POST" style="display:inline;">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-danger delete-btn"
-                                                        data-id="{{ $jadwal->id }}">Hapus</button>
+                                                        data-id="{{ $jadwal->id }}"><i class="fas fa-trash"></i></button>
                                                 </form>
                                             </td>
                                         </tr>
@@ -160,7 +159,7 @@
 
         document.getElementById('jurusanSelect').addEventListener('change', function(event) {
             toggleFields();
-            event.preventDefault(); // Mencegah pengiriman form saat mengubah jurusan
+            event.preventDefault();
         });
 
         document.getElementById('resetForm').addEventListener('click', function() {

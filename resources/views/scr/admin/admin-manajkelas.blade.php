@@ -39,7 +39,7 @@
                                 <tbody>
                                     @foreach ($jurusans as $index => $jurusan)
                                         <tr>
-                                            <td>{{ $index + 1 }}</td>
+                                            <td class="row-number">{{ $loop->iteration }}</td>
                                             <td>{{ $jurusan->kode_jurusan }}</td>
                                             <td>{{ $jurusan->nama_jurusan }}</td>
                                             <td>
@@ -123,9 +123,9 @@
                                     </tr>
                                 </thead>
                                 <tbody id="kelasTableBody">
-                                    @foreach ($kelas->sortBy('jurusan_id') as $index => $kelasItem)
+                                    @foreach ($kelas->sortBy('jurusan_id') as $kelasItem)
                                         <tr class="kelas-row" data-tingkat="{{ $kelasItem->tingkat }}" data-jurusan-id="{{ $kelasItem->jurusan_id }}" data-wali-id="{{ $kelasItem->wali_kelas }}">
-                                            <td>{{ $index + 1 }}</td>
+                                            <td class="row-number">{{ $loop->iteration }}</td>
                                             <td>{{ $kelasItem->tingkat }}</td>
                                             <td>{{ $kelasItem->jurusan->nama_jurusan }}</td>
                                             <td>{{ $kelasItem->waliKelas ? $kelasItem->waliKelas->name : 'Tidak ada' }}</td>
@@ -171,6 +171,19 @@
             row.style.display = (filterTingkat === "" || tingkat === filterTingkat) &&
                                 (filterJurusan === "" || jurusanId === filterJurusan) &&
                                 (filterWaliKelas === "" || waliId === filterWaliKelas) ? "" : "none";
+        });
+        resetNo();
+    }
+
+    function resetNo() {
+        const rows = document.querySelectorAll('#kelasTableBody .kelas-row'); 
+        let count = 1;
+        rows.forEach(row => {
+            if (row.style.display !== 'none') {
+                row.querySelector('.row-number').textContent = count++;
+            } else {
+                row.querySelector('.row-number').textContent = '';
+            }
         });
     }
 

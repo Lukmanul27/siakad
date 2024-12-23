@@ -33,14 +33,18 @@
                 <!-- Filter Jurusan -->
                 <div class="card shadow mb-4">
                     <div class="card-body">
-                        <div class="row align-items-center">
-                            <div class="col-md-3">
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <label for="filterJurusan" class="form-label">Jurusan</label>
                                 <select class="form-select" id="filterJurusan" onchange="filterMapel()">
                                     <option value="">Semua Jurusan</option>
                                     @foreach ($jurusans as $jurusan)
                                         <option value="{{ $jurusan->id }}">{{ $jurusan->nama_jurusan }}</option>
                                     @endforeach
                                 </select>
+                            </div>
+                            <div class="col-md-4 d-flex align-items-end">
+                                <button class="btn btn-danger" id="resetFilter" onclick="resetFilter()">Reset</button>
                             </div>
                         </div>
                     </div>
@@ -67,7 +71,7 @@
                                 <tbody id="mapelTableBody">
                                     @foreach ($mataPelajaran as $index => $mapel)
                                         <tr class="mapel-row" data-jurusan-id="{{ $mapel->jurusan_id }}">
-                                            <td>{{ $index + 1 }}</td>
+                                            <td class="row-number">{{ $index + 1 }}</td> <!-- Penomoran ditambahkan di sini -->
                                             <td>{{ $mapel->kode }}</td>
                                             <td>{{ $mapel->nama }}</td>
                                             <td>{{ $mapel->jurusan->nama_jurusan }}</td>
@@ -112,6 +116,24 @@
                     row.style.display = "none";
                 }
             });
+            resetNo();
+        }
+
+        function resetNo() {
+            const rows = document.querySelectorAll('#mapelTableBody .mapel-row'); 
+            let count = 1;
+            rows.forEach(row => {
+                if (row.style.display !== 'none') {
+                    row.querySelector('.row-number').textContent = count++;
+                } else {
+                    row.querySelector('.row-number').textContent = '';
+                }
+            });
+        }
+
+        function resetFilter() {
+            document.getElementById('filterJurusan').selectedIndex = 0;
+            filterMapel(); // Panggil fungsi filter untuk menyegarkan tabel
         }
     </script>
 @endsection
