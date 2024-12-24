@@ -30,10 +30,10 @@
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    @forelse($pengumumans as $item)
-                                        <tr>
-                                            <td>{{ $loop->iteration }}</td>
+                                <tbody id="pengumumanTableBody">
+                                    @forelse($pengumumans->sortBy('status') as $item)
+                                        <tr class="pengumuman-row">
+                                            <td class="row-number">{{ $loop->iteration }}</td>
                                             <td>{{ $item->judul }}</td>
                                             <td>{{ $item->tanggal }}</td>
                                             <td>
@@ -115,4 +115,16 @@
             }
         });
     });
+
+    function resetNo() {
+        const rows = document.querySelectorAll('#pengumumanTableBody .pengumuman-row');
+        let count = 1;
+        rows.forEach(row => {
+            if (row.style.display !== 'none') {
+                row.querySelector('.row-number').textContent = count++;
+            } else {
+                row.querySelector('.row-number').textContent = '';
+            }
+        });
+    }
 </script>
