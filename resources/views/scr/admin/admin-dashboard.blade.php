@@ -72,7 +72,7 @@
                                 <div class="col mr-2">
                                     <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
                                         Pengumuman Aktif</div>
-                                    <div class="h5 mb-0 font-weight-bold text-dark">5</div>
+                                    <div class="h5 mb-0 font-weight-bold text-dark">{{ \App\Models\Pengumuman::where('status', 'aktif')->count() }}</div>
                                 </div>
                                 <div class="col-auto">
                                     <i class="fas fa-bullhorn fa-2x text-warning"></i>
@@ -92,27 +92,41 @@
                         </div>
                         <div class="card-body">
                             <div class="list-group">
-                                <a href="#" class="list-group-item list-group-item-action">
-                                    <div class="d-flex w-100 justify-content-between">
-                                        <h6 class="mb-1">Pengumuman baru ditambahkan</h6>
-                                        <small class="text-muted">3 hari yang lalu</small>
-                                    </div>
-                                    <p class="mb-1">Pengumuman mengenai jadwal ujian semester telah dipublikasikan.</p>
-                                </a>
-                                <a href="#" class="list-group-item list-group-item-action">
-                                    <div class="d-flex w-100 justify-content-between">
-                                        <h6 class="mb-1">Guru baru terdaftar</h6>
-                                        <small class="text-muted">5 hari yang lalu</small>
-                                    </div>
-                                    <p class="mb-1">2 guru baru telah ditambahkan ke dalam sistem.</p>
-                                </a>
-                                <a href="#" class="list-group-item list-group-item-action">
-                                    <div class="d-flex w-100 justify-content-between">
-                                        <h6 class="mb-1">Pembaruan jadwal pelajaran</h6>
-                                        <small class="text-muted">1 minggu yang lalu</small>
-                                    </div>
-                                    <p class="mb-1">Jadwal pelajaran untuk semester baru telah diperbarui.</p>
-                                </a>
+                                @php
+                                    $aktivitas = collect();
+                                    $aktivitas = $aktivitas->merge(\App\Models\Jadwal::where('updated_at', '>=', now()->subDays(5))->orderBy('updated_at', 'desc')->take(1)->get());
+                                    $aktivitas = $aktivitas->merge(\App\Models\Pengumuman::where('created_at', '>=', now()->subDays(5))->orderBy('created_at', 'desc')->take(3)->get());
+                                    $aktivitas = $aktivitas->merge(\App\Models\User::where('role', 'guru')->where('created_at', '>=', now()->subDays(5))->orderBy('created_at', 'desc')->take(2)->get());
+                                    $aktivitas = $aktivitas->sortByDesc('created_at');
+                                @endphp
+
+                                @foreach ($aktivitas as $item)
+                                    @if ($item instanceof \App\Models\Jadwal)
+                                        <a href="#" class="list-group-item list-group-item-action bg-light border border-info">
+                                            <div class="d-flex w-100 justify-content-between">
+                                                <h6 class="mb-1">Pembaruan jadwal pelajaran</h6>
+                                                <small class="text-muted">{{ $item->updated_at->diffForHumans() }}</small>
+                                            </div>
+                                            <p class="mb-1">Jadwal pelajaran untuk semester baru telah diperbarui.</p>
+                                        </a>
+                                    @elseif ($item instanceof \App\Models\Pengumuman)
+                                        <a href="#" class="list-group-item list-group-item-action bg-light border border-info">
+                                            <div class="d-flex w-100 justify-content-between">
+                                                <h6 class="mb-1">Pengumuman baru ditambahkan: <strong>{{ $item->judul }}</strong></h6>
+                                                <small class="text-muted">{{ $item->created_at->diffForHumans() }}</small>
+                                            </div>
+                                            <p class="mb-1">{{ $item->isi }}</p>
+                                        </a>
+                                    @elseif ($item instanceof \App\Models\User)
+                                        <a href="#" class="list-group-item list-group-item-action bg-light border border-info">
+                                            <div class="d-flex w-100 justify-content-between">
+                                                <h6 class="mb-1">Guru baru terdaftar: <strong>{{ $item->name }}</strong></h6>
+                                                <small class="text-muted">{{ $item->created_at->diffForHumans() }}</small>
+                                            </div>
+                                        </a>
+                                    @endif
+                                    <div class="dropdown-divider"></div>
+                                @endforeach
                             </div>
                         </div>
                     </div>
