@@ -1,13 +1,13 @@
 $(document).ready(function() {
-    // Sembunyikan loading saat halaman selesai dimuat
-    $('.loading').hide();
+    // // Sembunyikan loading saat halaman selesai dimuat
+    // $('.loading').hide();
     
-    // Tampilkan loading hanya saat navigasi halaman
-    $(document).on('click', 'a', function() {
-        if (!$(this).hasClass('no-loading')) {
-            $('.loading').fadeIn();
-        }
-    });
+    // // Tampilkan loading hanya saat navigasi halaman
+    // $(document).on('click', 'a', function() {
+    //     if (!$(this).hasClass('no-loading')) {
+    //         $('.loading').fadeIn();
+    //     }
+    // });
 
     // Efek hover untuk cards
     $('.card').hover(

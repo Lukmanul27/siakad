@@ -7,7 +7,8 @@ use App\Http\Controllers\Admin\JurusanController;
 use App\Http\Controllers\Admin\KelasController;
 use App\Http\Controllers\Admin\MapelController; 
 use App\Http\Controllers\Admin\SiswaController; 
-use App\Http\Controllers\Admin\JadwalController; // Menambahkan import model JadwalController
+use App\Http\Controllers\Admin\JadwalController; 
+use App\Http\Controllers\Admin\PengumumanController; // Menambahkan import model PengumumanController
 use App\Models\Kelas; 
 use App\Models\Jurusan; 
 use App\Models\User; 
@@ -51,8 +52,12 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/jadwal/store', [JadwalController::class, 'store'])->name('admin.jadwal.store'); 
         Route::put('/jadwal/update/{id}', [JadwalController::class, 'update'])->name('admin.jadwal.update'); 
         Route::delete('/jadwal/delete/{id}', [JadwalController::class, 'destroy'])->name('admin.jadwal.destroy'); 
-
-        Route::view('/pengumuman', 'scr.admin.admin-pengumuman')->name('admin.pengumuman');
+        // Routes CRUD Pengumuman
+        Route::get('/manajpengumuman', [PengumumanController::class, 'index'])->name('admin.pengumuman.index');
+        Route::post('/pengumuman/store', [PengumumanController::class, 'store'])->name('admin.pengumuman.store');
+        Route::put('/pengumuman/update/{id}', [PengumumanController::class, 'update'])->name('admin.pengumuman.update');
+        Route::delete('/pengumuman/delete/{id}', [PengumumanController::class, 'destroy'])->name('admin.pengumuman.destroy');
+        Route::get('/pengumuman', [PengumumanController::class, 'index'])->name('admin.pengumuman'); // Mengubah view menjadi route ke controller
 
         Route::middleware('can:admin-access')->group(function() {
             Route::post('/store-user', [UserController::class, 'store'])->name('admin.store.user');
