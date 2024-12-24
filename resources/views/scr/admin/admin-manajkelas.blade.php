@@ -1,12 +1,14 @@
- @extends('layouts.appadmin')
+@extends('layouts.appadmin')
 
+@section('title', 'Manajemen Jurusan & Kelas')
 @section('content')
     <div class="container-fluid">
         <div class="row">
             @include('layouts.sidebar.admin-appsidebar')
 
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <div
+                    class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                     <h1 class="h2 text-dark">Manajemen Jurusan & Kelas</h1>
                     <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#tambahJurusanModal">
                         <i class="fas fa-plus"></i> Tambah Jurusan
@@ -43,13 +45,16 @@
                                             <td>{{ $jurusan->kode_jurusan }}</td>
                                             <td>{{ $jurusan->nama_jurusan }}</td>
                                             <td>
-                                                <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editJurusanModal{{ $jurusan->id }}">
+                                                <button class="btn btn-warning btn-sm" data-bs-toggle="modal"
+                                                    data-bs-target="#editJurusanModal{{ $jurusan->id }}">
                                                     <i class="fas fa-edit"></i>
                                                 </button>
-                                                <form action="{{ route('jurusan.delete', $jurusan->id) }}" method="POST" class="d-inline">
+                                                <form action="{{ route('jurusan.delete', $jurusan->id) }}" method="POST"
+                                                    class="d-inline">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Yakin hapus jurusan ini?')">
+                                                    <button type="submit" class="btn btn-danger btn-sm"
+                                                        onclick="return confirm('Yakin hapus jurusan ini?')">
                                                         <i class="fas fa-trash"></i>
                                                     </button>
                                                 </form>
@@ -64,7 +69,8 @@
 
                 @include('layouts.modals.admin-jurusan')
 
-                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <div
+                    class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                     <h1 class="h2 text-dark">Manajemen Kelas</h1>
                     <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#tambahKelasModal">
                         <i class="fas fa-plus"></i> Tambah Kelas
@@ -121,20 +127,26 @@
                                 </thead>
                                 <tbody id="kelasTableBody">
                                     @foreach ($kelas->sortBy('jurusan_id') as $kelasItem)
-                                        <tr class="kelas-row" data-tingkat="{{ $kelasItem->tingkat }}" data-jurusan-id="{{ $kelasItem->jurusan_id }}" data-wali-id="{{ $kelasItem->wali_kelas }}">
+                                        <tr class="kelas-row" data-tingkat="{{ $kelasItem->tingkat }}"
+                                            data-jurusan-id="{{ $kelasItem->jurusan_id }}"
+                                            data-wali-id="{{ $kelasItem->wali_kelas }}">
                                             <td class="row-number">{{ $loop->iteration }}</td>
                                             <td>{{ $kelasItem->tingkat }}</td>
                                             <td>{{ $kelasItem->jurusan->nama_jurusan }}</td>
-                                            <td>{{ $kelasItem->waliKelas ? $kelasItem->waliKelas->name : 'Tidak ada' }}</td>
+                                            <td>{{ $kelasItem->waliKelas ? $kelasItem->waliKelas->name : 'Tidak ada' }}
+                                            </td>
                                             <td>{{ $kelasItem->nama_kelas }}</td>
                                             <td>
-                                                <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editKelasModal{{ $kelasItem->id }}">
+                                                <button class="btn btn-warning btn-sm" data-bs-toggle="modal"
+                                                    data-bs-target="#editKelasModal{{ $kelasItem->id }}">
                                                     <i class="fas fa-edit"></i>
                                                 </button>
-                                                <form action="{{ route('kelas.destroy', $kelasItem->id) }}" method="POST" class="d-inline">
+                                                <form action="{{ route('kelas.destroy', $kelasItem->id) }}" method="POST"
+                                                    class="d-inline">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Yakin hapus kelas ini?')">
+                                                    <button type="submit" class="btn btn-danger btn-sm"
+                                                        onclick="return confirm('Yakin hapus kelas ini?')">
                                                         <i class="fas fa-trash"></i>
                                                     </button>
                                                 </form>
@@ -165,14 +177,14 @@
                 const waliId = row.getAttribute("data-wali-id");
 
                 row.style.display = (filterTingkat === "" || tingkat === filterTingkat) &&
-                                    (filterJurusan === "" || jurusanId === filterJurusan) &&
-                                    (filterWaliKelas === "" || waliId === filterWaliKelas) ? "" : "none";
+                    (filterJurusan === "" || jurusanId === filterJurusan) &&
+                    (filterWaliKelas === "" || waliId === filterWaliKelas) ? "" : "none";
             });
             resetNo();
         }
 
         function resetNo() {
-            const rows = document.querySelectorAll('#kelasTableBody .kelas-row'); 
+            const rows = document.querySelectorAll('#kelasTableBody .kelas-row');
             let count = 1;
             rows.forEach(row => {
                 if (row.style.display !== 'none') {

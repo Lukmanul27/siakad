@@ -1,5 +1,6 @@
 @extends('layouts.appadmin')
 
+@section('title', 'Pengumuman')
 @section('content')
     <div class="container-fluid">
         <div class="row">
@@ -31,7 +32,7 @@
                                     </tr>
                                 </thead>
                                 <tbody id="pengumumanTableBody">
-                                    @forelse($pengumumans->sortBy('status') as $item)
+                                    @forelse($pengumumans as $item)
                                         <tr class="pengumuman-row">
                                             <td class="row-number">{{ $loop->iteration }}</td>
                                             <td>{{ $item->judul }}</td>
@@ -43,9 +44,12 @@
                                             </td>
                                             <td>
                                                 <button class="btn btn-primary btn-sm" data-bs-toggle="modal"
-                                                    data-bs-target="#viewPengumumanModal" data-id="{{ $item->id }}"
-                                                    data-judul="{{ $item->judul }}" data-tanggal="{{ $item->tanggal }}"
-                                                    data-status="{{ $item->status }}" data-isi="{{ $item->isi }}"
+                                                    data-bs-target="#viewPengumumanModal"
+                                                    data-id="{{ $item->id }}"
+                                                    data-judul="{{ $item->judul }}"
+                                                    data-tanggal="{{ $item->tanggal }}"
+                                                    data-status="{{ $item->status }}"
+                                                    data-isi="{{ $item->isi }}"
                                                     data-lampiran="{{ $item->lampiran ? asset('storage/' . $item->lampiran) : '' }}">
                                                     Detail
                                                 </button>
@@ -91,6 +95,7 @@
         const modal = document.getElementById('viewPengumumanModal');
         modal.addEventListener('show.bs.modal', function(event) {
             const button = event.relatedTarget;
+
             const judul = button.getAttribute('data-judul');
             const tanggal = button.getAttribute('data-tanggal');
             const status = button.getAttribute('data-status');

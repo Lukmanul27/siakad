@@ -1,5 +1,6 @@
 @extends('layouts.appadmin')
 
+@section('title', 'Manajemen Jadwal Pelajaran')
 @section('content')
     <div class="container-fluid">
         <div class="row">
