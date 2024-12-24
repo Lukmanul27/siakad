@@ -1,9 +1,9 @@
 <nav class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
     <div class="sidebar-sticky">
-        <div class="d-flex flex-column align-items-center pt-4 pb-3">
-            <h6 class="text-center mb-0 fw-bold">{{ Auth::user()->name }}</h6>
-            <small class="text-muted">{{ Auth::user()->email }}</small>
-            <small class="text-muted">{{ Auth::user()->role }}</small>
+        <div class="text-center pt-4 pb-3 border-bottom">
+            <h6 class="mb-0 fw-bold text-primary">{{ auth()->user()->name }}</h6>
+            <small class="text-muted d-block">{{ auth()->user()->email }}</small>
+            <small class="text-muted d-block">{{ auth()->user()->role }}</small>
         </div>
         <ul class="nav flex-column">
             <li class="nav-item">
@@ -37,15 +37,14 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-danger py-3 px-4" href="{{ route('logout') }}"
-                    onclick="event.preventDefault();
-                    document.getElementById('logout-form').submit();">
-                    <i class="fas fa-sign-out-alt me-2"></i>
-                    Keluar
-                </a>
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                     @csrf
                 </form>
+                <a class="nav-link text-danger py-3 px-4" href="{{ route('logout') }}"
+                    onclick="event.preventDefault(); if(confirm('Apakah Anda yakin ingin keluar?')) { document.getElementById('logout-form').submit(); }">
+                    <i class="fas fa-sign-out-alt me-2"></i>
+                    Keluar
+                </a>
             </li>
         </ul>
     </div>

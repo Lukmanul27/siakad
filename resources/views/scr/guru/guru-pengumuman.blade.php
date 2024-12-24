@@ -1,5 +1,6 @@
 @extends('layouts.appguru')
 
+@section('title', 'Pengumuman')
 @section('content')
 <div class="container-fluid">
     <div class="row">

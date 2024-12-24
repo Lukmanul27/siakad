@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>SIAKAD - Dashboard Guru</title>
+    <title>{{ config('SIAKAD', 'SIAKAD') }} - @yield('title', $title ?? 'Semua Halaman')</title>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">

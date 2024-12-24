@@ -1,5 +1,6 @@
 @extends('layouts.appguru')
 
+@section('title', 'Dashboard')
 @section('content')
 <div class="container-fluid">
     <div class="row">
@@ -9,7 +10,7 @@
         <!-- Main Content -->
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                <h1 class="h2">Dashboard Guru</h1>
+                <h1 class="h2 text-dark">Dashboard Guru</h1>
             </div>
 
             <!-- Quick Stats -->
@@ -21,13 +22,13 @@
             <div class="row mt-4">
                 <div class="col-12">
                     <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Jadwal Mengajar Hari Ini</h6>
+                        <div class="card-header py-3 bg-primary text-white">
+                            <h6 class="m-0 font-weight-bold">Jadwal Mengajar Hari Ini</h6>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-bordered">
-                                    <thead>
+                                    <thead class="table-light">
                                         <tr>
                                             <th>Jam</th>
                                             <th>Kelas</th>
@@ -49,9 +50,9 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card shadow mb-4">
-                        <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                            <h6 class="m-0 font-weight-bold text-primary">Pengumuman Terbaru</h6>
-                            <a href="{{ url('/guru/pengumuman') }}" class="btn btn-sm btn-primary">Lihat Semua</a>
+                        <div class="card-header py-3 d-flex justify-content-between align-items-center bg-primary text-white">
+                            <h6 class="m-0 font-weight-bold">Pengumuman Terbaru</h6>
+                            <a href="{{ url('/guru/pengumuman') }}" class="btn btn-sm btn-light">Lihat Semua</a>
                         </div>
                         <div class="card-body">
                             <div class="list-group" id="pengumumanTerbaru">
