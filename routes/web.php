@@ -8,7 +8,7 @@ use App\Http\Controllers\Admin\KelasController;
 use App\Http\Controllers\Admin\MapelController; 
 use App\Http\Controllers\Admin\SiswaController; 
 use App\Http\Controllers\Admin\JadwalController; 
-use App\Http\Controllers\Admin\PengumumanController; // Menambahkan import model PengumumanController
+use App\Http\Controllers\Admin\PengumumanController; 
 use App\Models\Kelas; 
 use App\Models\Jurusan; 
 use App\Models\User; 
@@ -28,7 +28,7 @@ Route::middleware(['auth'])->group(function () {
     })->name('home');
 
     // Admin Routes
-    Route::middleware(['admin'])->prefix('admin')->group(function () {
+    Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
         Route::view('/dashboard', 'scr.admin.admin-dashboard')->name('admin.dashboard');
         Route::get('/manajguru', [UserController::class, 'manajGuru'])->name('admin.manajguru');
         Route::get('/manajkelas', [KelasController::class, 'index'])->name('admin.manajkelas'); 
@@ -57,7 +57,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/pengumuman/store', [PengumumanController::class, 'store'])->name('admin.pengumuman.store');
         Route::put('/pengumuman/update/{id}', [PengumumanController::class, 'update'])->name('admin.pengumuman.update');
         Route::delete('/pengumuman/delete/{id}', [PengumumanController::class, 'destroy'])->name('admin.pengumuman.destroy');
-        Route::get('/pengumuman', [PengumumanController::class, 'index'])->name('admin.pengumuman'); // Mengubah view menjadi route ke controller
+        Route::get('/pengumuman', [PengumumanController::class, 'index'])->name('admin.pengumuman'); 
 
         Route::middleware('can:admin-access')->group(function() {
             Route::post('/store-user', [UserController::class, 'store'])->name('admin.store.user');
@@ -78,9 +78,9 @@ Route::middleware(['auth'])->group(function () {
     });
 
     // Guru Routes  
-    Route::middleware(['guru'])->prefix('guru')->group(function () {
+    Route::middleware(['auth', 'guru'])->prefix('guru')->group(function () {
         Route::view('/dashboard', 'scr.guru.guru-dashboard')->name('guru.dashboard');
-        Route::view('/jadwal', 'scr.guru.guru-jadwal')->name('guru.jadwal');
+        Route::get('/jadwal', [\App\Http\Controllers\Guru\JadwalController::class, 'index'])->name('guru.jadwal');
         Route::view('/absensi', 'scr.guru.guru-absensi')->name('guru.absensi');
         Route::view('/fungsionals/kehadiran-siswa', 'scr.guru.fungsionals.kehadiran-siswa')->name('guru.kehadiran-siswa');
         Route::view('/nilai', 'scr.guru.guru-nilai')->name('guru.nilai');

@@ -25,10 +25,22 @@
                                     <th>Mata Pelajaran</th>
                                     <th>Kelas</th>
                                     <th>Ruangan</th>
+                                    <th>Jam Ke</th>
+                                    <th>Waktu</th>
                                 </tr>
                             </thead>
                             <tbody id="jadwalTableBody">
-                                <!-- Data akan diisi oleh JavaScript -->
+                                @foreach ($jadwals as $jadwal)
+                                    <tr>
+                                        <td>{{ $jadwal->hari }}</td>
+                                        <td>{{ $jadwal->waktu }}</td>
+                                        <td>{{ $jadwal->mataPelajaran->nama }}</td>
+                                        <td>{{ $jadwal->kelas->nama_kelas }}</td>
+                                        <td>{{ $jadwal->ruangan }}</td>
+                                        <td>{{ $jadwal->jam_ke }}</td>
+                                        <td>{{ $jadwal->waktu }}</td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -51,68 +63,4 @@
         </main>
     </div>
 </div>
-
-<script>
-// Data sementara untuk jadwal mengajar
-const jadwalData = [
-    {
-        hari: 'Senin',
-        jam: '07:00 - 08:30',
-        mataPelajaran: 'Matematika',
-        kelas: 'X IPA 1',
-        ruangan: 'R.101'
-    },
-    {
-        hari: 'Senin',
-        jam: '08:30 - 10:00',
-        mataPelajaran: 'Matematika',
-        kelas: 'X IPA 2',
-        ruangan: 'R.102'
-    },
-    {
-        hari: 'Selasa',
-        jam: '07:00 - 08:30',
-        mataPelajaran: 'Matematika',
-        kelas: 'XI IPA 1',
-        ruangan: 'R.201'
-    },
-    {
-        hari: 'Rabu',
-        jam: '10:15 - 11:45',
-        mataPelajaran: 'Matematika',
-        kelas: 'X IPA 3',
-        ruangan: 'R.103'
-    },
-    {
-        hari: 'Kamis',
-        jam: '13:00 - 14:30',
-        mataPelajaran: 'Matematika',
-        kelas: 'XI IPA 2',
-        ruangan: 'R.202'
-    }
-];
-
-// Fungsi untuk menampilkan data jadwal
-function renderJadwal() {
-    const jadwalTableBody = document.getElementById('jadwalTableBody');
-    jadwalTableBody.innerHTML = '';
-
-    jadwalData.forEach(jadwal => {
-        jadwalTableBody.innerHTML += `
-            <tr>
-                <td>${jadwal.hari}</td>
-                <td>${jadwal.jam}</td>
-                <td>${jadwal.mataPelajaran}</td>
-                <td>${jadwal.kelas}</td>
-                <td>${jadwal.ruangan}</td>
-            </tr>
-        `;
-    });
-}
-
-// Load data saat halaman dimuat
-document.addEventListener('DOMContentLoaded', function() {
-    renderJadwal();
-});
-</script>
 @endsection

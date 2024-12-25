@@ -63,6 +63,7 @@ class JadwalController extends Controller
             'waktu' => 'required|string',
             'mata_pelajaran_id' => 'required|string',
             'guru_id' => 'required|integer',
+            'ruangan' => 'nullable|string', // Menambahkan validasi untuk ruangan
         ]);
 
         Jadwal::create([
@@ -73,6 +74,7 @@ class JadwalController extends Controller
             'waktu' => $validated['waktu'],
             'mata_pelajaran_id' => $validated['mata_pelajaran_id'],
             'guru_id' => $validated['guru_id'],
+            'ruangan' => $validated['ruangan'], // Menyimpan ruangan
         ]);
 
         return redirect()->back()->with('success', 'Jadwal berhasil ditambahkan.');
@@ -98,6 +100,7 @@ class JadwalController extends Controller
             'waktu' => 'required|string',
             'mata_pelajaran_id' => 'required|string',
             'guru_id' => 'required|integer',
+            'ruangan' => 'nullable|string', // Menambahkan validasi untuk ruangan
         ]);
 
         $jadwal = Jadwal::findOrFail($id);
