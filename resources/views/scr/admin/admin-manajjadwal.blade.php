@@ -51,6 +51,7 @@
                                         <th>Mata Pelajaran</th>
                                         <th>Guru Mata Pelajaran</th>
                                         <th>Jurusan</th>
+                                        <th>Ruangan</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
@@ -64,6 +65,7 @@
                                             <td>{{ $jadwal->mataPelajaran->nama ?? ($jadwal->mata_pelajaran_id == '90' ? 'Upacara' : ($jadwal->mata_pelajaran_id == '91' ? 'Istirahat' : 'Apel')) }}</td>
                                             <td>{{ $jadwal->guru->name ?? ($jadwal->guru_id == '94' ? '-' : 'Semuanya') }}</td>
                                             <td class="jurusan">{{ $jadwal->jurusan->nama_jurusan ?? 'Semua Jurusan' }}</td>
+                                            <td class="ruangan">{{ $jadwal->ruangan ?? 'Belum Ditentukan' }}</td>
                                             <td>
                                                 <button class="btn btn-warning edit-btn" data-id="{{ $jadwal->id }}"
                                                     data-bs-toggle="modal"

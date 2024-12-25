@@ -78,6 +78,10 @@
                             <option value="">Pilih Guru</option>
                         </select>
                     </div>
+                    <div class="mb-3">
+                        <label class="form-label">Ruangan</label>
+                        <input type="text" class="form-control" name="ruangan" value="{{ old('ruangan') }}" />
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
@@ -186,6 +190,11 @@
                                     </option>
                                 @endforeach
                             </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Ruangan</label>
+                            <input type="text" class="form-control" name="ruangan" value="{{ $jadwal->ruangan ?? 'Belum Ditentukan' }}" />
                         </div>
                     </form>
                 </div>

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('waktu');
             $table->unsignedBigInteger('mata_pelajaran_id');
             $table->unsignedBigInteger('guru_id');
+            $table->string('ruangan')->nullable();
             $table->timestamps();
         });
     }
