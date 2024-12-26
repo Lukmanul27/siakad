@@ -1,9 +1,8 @@
-
 <!-- Modal Tambah Jadwal -->
 <div class="modal fade" id="tambahJadwalModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header bg-primary text-white">
                 <h5 class="modal-title">Tambah Jadwal Pelajaran</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
@@ -62,9 +61,11 @@
                         </select>
                     </div>
                     <div class="mb-3" id="waktuContainer" style="display: none;">
-                            <label class="form-label">Waktu</label>
-                            <input type="time" class="form-control" name="waktu" value="{{ old('waktu') }}"
-                                required />
+                        <label class="form-label">Waktu</label>
+                        <input type="text" class="form-control" name="waktu" value="{{ old('waktu') }}"
+                            placeholder="Contoh: 08:00 - 10:00" required />
+                        <small class="form-text text-muted">Masukkan waktu dalam format jam (HH:MM) untuk menentukan
+                            waktu mulai dan selesai.</small>
                     </div>
                     <div class="mb-3" id="mataPelajaranContainer" style="display: none;">
                         <label class="form-label">Mata Pelajaran</label>
@@ -99,7 +100,7 @@
         aria-labelledby="editJadwalLabel{{ $jadwal->id }}" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header bg-primary text-white">
                     <h5 class="modal-title" id="editJadwalLabel{{ $jadwal->id }}">Edit Jadwal Pelajaran</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -194,7 +195,8 @@
 
                         <div class="mb-3">
                             <label class="form-label">Ruangan</label>
-                            <input type="text" class="form-control" name="ruangan" value="{{ $jadwal->ruangan ?? 'Belum Ditentukan' }}" />
+                            <input type="text" class="form-control" name="ruangan"
+                                value="{{ $jadwal->ruangan ?? 'Belum Ditentukan' }}" />
                         </div>
                     </form>
                 </div>

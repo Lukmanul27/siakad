@@ -14,26 +14,45 @@
                     </button>
                 </div>
 
-                <div class="card shadow mb-4">
-                    <div class="card-header py-3 bg-primary text-white">
+                <div class="card shadow-lg border-0 mb-4">
+                    <div class="card-header py-3 bg-primary text-white rounded-top">
                         <h6 class="m-0 font-weight-bold">Filter Jadwal</h6>
                     </div>
-                    <div class="card-body">
-                        <div class="row align-items-center mb-3">
-                            <div class="col-md-3">
-                                <select class="form-select" id="filterHari" name="hari">
-                                    <option value="">Pilih Hari</option>
-                                    @foreach (['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'] as $hari)
-                                        <option value="{{ $hari }}">{{ $hari }}</option>
-                                    @endforeach
-                                </select>
+                    <div class="card-body p-4">
+                        <form id="filterForm" method="GET" action="{{ request()->url() }}">
+                            <div class="row gy-3">
+                                <!-- Filter Hari -->
+                                <div class="col-md-6">
+                                    <label for="filterHari" class="form-label fw-semibold">Filter Hari</label>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <select class="form-select shadow-sm" id="filterHari" name="hari">
+                                            <option value="" disabled selected>Pilih Hari</option>
+                                            @foreach (['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'] as $hari)
+                                                <option value="{{ $hari }}" {{ request('hari') == $hari ? 'selected' : '' }}>{{ $hari }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                
+                                <!-- Filter Kelas -->
+                                <div class="col-md-6">
+                                    <label for="filterKelas" class="form-label fw-semibold">Filter Kelas</label>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <select class="form-select shadow-sm" id="filterKelas" name="kelas">
+                                            <option value="" disabled selected>Pilih Kelas</option>
+                                            @foreach ($kelas as $k)
+                                                <option value="{{ $k->id }}" {{ request('kelas') == $k->id ? 'selected' : '' }}>{{ $k->nama_kelas }}</option>
+                                            @endforeach
+                                        </select>
+                                        <button type="reset" class="btn btn-outline-danger shadow-sm" id="resetFilter">
+                                            <i class="bi bi-arrow-counterclockwise"></i> Reset
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-md-3">
-                                <button class="btn btn-danger" id="resetFilter">Reset</button>
-                            </div>
-                        </div>
+                        </form>
                     </div>
-                </div>
+                </div>               
 
                 <div class="card shadow mb-4">
                     <div class="card-header py-3 bg-primary text-white">
@@ -63,7 +82,7 @@
                                             <td class="jam-ke">{{ $jadwal->jam_ke }}</td>
                                             <td class="waktu">{{ $jadwal->waktu }}</td>
                                             <td>{{ $jadwal->mataPelajaran->nama ?? ($jadwal->mata_pelajaran_id == '90' ? 'Upacara' : ($jadwal->mata_pelajaran_id == '91' ? 'Istirahat' : 'Apel')) }}</td>
-                                            <td>{{ $jadwal->guru->name ?? ($jadwal->guru_id == '94' ? '-' : 'Semuanya') }}</td>
+                                            <td>{{ $jadwal->guru->name ?? ($jadwal->guru_id == '94' ? '-' : 'Semua Guru') }}</td>
                                             <td class="jurusan">{{ $jadwal->jurusan->nama_jurusan ?? 'Semua Jurusan' }}</td>
                                             <td class="ruangan">{{ $jadwal->ruangan ?? 'Belum Ditentukan' }}</td>
                                             <td>
@@ -96,20 +115,27 @@
     @include('layouts.modals.admin-jadwals')
 
     <script>
-        document.getElementById('filterHari').addEventListener('change', function() {
-            filterJadwal(this.value);
-        });
+        const filterHari = document.getElementById('filterHari');
+        const filterKelas = document.getElementById('filterKelas');
+        const jadwalTableBody = document.querySelector('#jadwalTableBody');
+
+        filterHari.addEventListener('change', filterJadwal);
+        filterKelas.addEventListener('change', filterJadwal);
 
         document.getElementById('resetFilter').addEventListener('click', function() {
-            document.getElementById('filterHari').value = '';
-            filterJadwal('');
+            filterHari.value = '';
+            filterKelas.value = '';
+            filterJadwal();
         });
 
-        function filterJadwal(hari) {
-            const rows = document.querySelectorAll('#jadwalTableBody tr');
+        function filterJadwal() {
+            const hari = filterHari.value;
+            const kelas = filterKelas.value;
+            const rows = jadwalTableBody.querySelectorAll('tr');
             rows.forEach(row => {
                 const rowHari = row.querySelector('.hari').textContent;
-                row.style.display = (hari === '' || rowHari === hari) ? '' : 'none';
+                const rowKelas = row.querySelector('.kelas').textContent;
+                row.style.display = (hari === '' || rowHari === hari) && (kelas === '' || rowKelas === kelas) ? '' : 'none';
             });
         }
 
